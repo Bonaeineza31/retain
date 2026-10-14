@@ -3,6 +3,7 @@ import AppLayout from './components/AppLayout'
 import AdminRoute from './routes/AdminRoute'
 import ProtectedRoute from './routes/ProtectedRoute'
 import AdminDashboardPage from './pages/AdminDashboardPage'
+import BudgetPage from './pages/BudgetPage'
 import DashboardPage from './pages/DashboardPage'
 import ExpensesPage from './pages/ExpensesPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -21,6 +22,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/expenses" element={<ExpensesPage />} />
+            <Route path="/budget" element={<BudgetPage />} />
 
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminDashboardPage />} />

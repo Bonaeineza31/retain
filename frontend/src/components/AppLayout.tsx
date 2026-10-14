@@ -1,3 +1,4 @@
+import AccountBalanceWalletOutlined from '@mui/icons-material/AccountBalanceWalletOutlined'
 import AdminPanelSettingsOutlined from '@mui/icons-material/AdminPanelSettingsOutlined'
 import DashboardOutlined from '@mui/icons-material/DashboardOutlined'
 import LogoutOutlined from '@mui/icons-material/LogoutOutlined'
@@ -31,6 +32,7 @@ export default function AppLayout() {
   const navItems: NavItem[] = [
     { label: 'Dashboard', to: '/dashboard', icon: <DashboardOutlined /> },
     { label: 'Expenses', to: '/expenses', icon: <ReceiptLongOutlined /> },
+    { label: 'Budget', to: '/budget', icon: <AccountBalanceWalletOutlined /> },
   ]
   if (isAdmin) {
     navItems.push({ label: 'Admin', to: '/admin', icon: <AdminPanelSettingsOutlined /> })

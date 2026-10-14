@@ -31,6 +31,14 @@ function getMyExpenses(): Expense[] {
   return getAllExpenses().filter((e) => e.userId === userId)
 }
 
+// how much the signed in user spent in a month (month looks like 2026-10).
+// the real backend returns this together with the budget summary.
+export function sumExpensesForMonth(month: string): number {
+  return getMyExpenses()
+    .filter((e) => e.date.startsWith(month))
+    .reduce((total, e) => total + e.amount, 0)
+}
+
 function matchesFilters(expense: Expense, filters: ExpenseFiltersState): boolean {
   const search = filters.search.trim().toLowerCase()
   if (search) {
