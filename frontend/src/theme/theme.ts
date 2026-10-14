@@ -1,24 +1,28 @@
 import { createTheme } from '@mui/material/styles'
 
-// teal and orange are taken from the eNoti app
-const ink = '#3C3C3C'
-const page = '#F2F3F5'
+// deep midnight and warm coral on a cool off-white
+const ink = '#14161F'
+const page = '#F4F5F7'
 const surface = '#FFFFFF'
-const line = '#E1E4E6'
+const line = '#E2E4EA'
 
 // success / warning / error double as the budget states:
 // within budget, approaching budget, over budget
 const theme = createTheme({
   palette: {
     mode: 'light',
-    primary: { main: '#0D767A', dark: '#0C5858', light: '#EAF4F3', contrastText: '#FFFFFF' },
-    // white text on this orange is too faint, so buttons use dark text
-    secondary: { main: '#E87C34', contrastText: '#2B2B2B' },
+    // midnight: for buttons, links and the active tab (white text on it is readable)
+    primary: { main: '#14161F', dark: '#000000', light: '#ECEDF2', contrastText: '#FFFFFF' },
+    // coral: the accent. white text on it is too faint, so it uses midnight text,
+    // and it is never used as text on a light background
+    secondary: { main: '#FF6B4A', dark: '#E5502F', contrastText: '#14161F' },
     success: { main: '#2E7D5B', contrastText: '#FFFFFF' },
-    warning: { main: '#E3A21A', contrastText: '#2B2B2B' },
-    error: { main: '#C0392B', contrastText: '#FFFFFF' },
+    // amber, because orange would look too much like the coral of the brand
+    warning: { main: '#E0A100', contrastText: '#14161F' },
+    // deep crimson, so "over budget" is not confused with the bright coral
+    error: { main: '#A3152A', contrastText: '#FFFFFF' },
     background: { default: page, paper: surface },
-    text: { primary: ink, secondary: '#666666' },
+    text: { primary: ink, secondary: '#5B6070' },
     divider: line,
   },
   shape: { borderRadius: 6 },

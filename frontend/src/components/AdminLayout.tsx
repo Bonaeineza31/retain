@@ -16,6 +16,7 @@ export default function AdminLayout() {
 
       <Tabs
         value={location.pathname}
+        indicatorColor="secondary"
         sx={{ mb: 3, borderBottom: 1, borderColor: 'divider' }}
         variant="scrollable"
         scrollButtons={false}

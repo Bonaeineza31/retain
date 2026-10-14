@@ -83,7 +83,7 @@ export default function AppLayout() {
                   borderRadius: 0,
                   borderBottom: 2,
                   borderColor: 'transparent',
-                  '&.active': { color: 'primary.main', borderColor: 'primary.main' },
+                  '&.active': { color: 'primary.main', borderColor: 'secondary.main' },
                 }}
               >
                 {item.label}

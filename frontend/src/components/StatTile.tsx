@@ -9,7 +9,7 @@ interface Props {
 // A small box with one label and one big number.
 export default function StatTile({ label, value }: Props) {
   return (
-    <Paper sx={{ p: { xs: 2, sm: 2.5 }, borderLeft: 4, borderLeftColor: 'primary.main' }}>
+    <Paper sx={{ p: { xs: 2, sm: 2.5 }, borderLeft: 4, borderLeftColor: 'secondary.main' }}>
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
         {label}
       </Typography>
