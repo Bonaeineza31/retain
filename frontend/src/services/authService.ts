@@ -73,6 +73,13 @@ export function getSessionUserId(): string | null {
   return localStorage.getItem(SESSION_KEY)
 }
 
+// same idea, but gives the whole user so services can check the role
+export function getSessionUser(): User | null {
+  const id = getSessionUserId()
+  const user = getUsers().find((u) => u.id === id)
+  return user ? withoutPassword(user) : null
+}
+
 // checks if someone was already signed in when the page loaded
 export async function getCurrentUser(): Promise<User | null> {
   const id = localStorage.getItem(SESSION_KEY)

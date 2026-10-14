@@ -106,6 +106,16 @@ export async function updateExpense(id: string, input: ExpenseInput): Promise<Ex
   return updated
 }
 
+// used when an admin deletes a category: its expenses move to another one.
+// the real backend does this inside the delete category endpoint.
+export function moveExpensesToCategory(fromId: string, toId: string) {
+  saveExpenses(
+    getAllExpenses().map((e) =>
+      e.categoryId === fromId ? { ...e, categoryId: toId } : e,
+    ),
+  )
+}
+
 export async function deleteExpense(id: string): Promise<void> {
   // this also makes sure the expense belongs to the signed in user
   await getExpense(id)

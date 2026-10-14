@@ -1,5 +1,6 @@
 import AdminPanelSettingsOutlined from '@mui/icons-material/AdminPanelSettingsOutlined'
 import DashboardOutlined from '@mui/icons-material/DashboardOutlined'
+import ReceiptLongOutlined from '@mui/icons-material/ReceiptLongOutlined'
 import AppBar from '@mui/material/AppBar'
 import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
@@ -27,6 +28,7 @@ export default function AppLayout() {
   // add new pages here and they show up in both menus
   const navItems: NavItem[] = [
     { label: 'Dashboard', to: '/dashboard', icon: <DashboardOutlined /> },
+    { label: 'Expenses', to: '/expenses', icon: <ReceiptLongOutlined /> },
   ]
   if (isAdmin) {
     navItems.push({ label: 'Admin', to: '/admin', icon: <AdminPanelSettingsOutlined /> })
