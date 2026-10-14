@@ -22,3 +22,9 @@ export interface Expense {
 }
 
 export type ExpenseInput = Omit<Expense, 'id' | 'userId' | 'createdAt'>
+
+// one page of expenses, plus how many match in total
+export interface ExpenseList {
+  items: Expense[]
+  total: number
+}

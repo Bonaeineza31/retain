@@ -67,6 +67,12 @@ export async function signOut() {
   localStorage.removeItem(SESSION_KEY)
 }
 
+// the other mock services use this to know whose data to return.
+// the real backend reads this from the token instead.
+export function getSessionUserId(): string | null {
+  return localStorage.getItem(SESSION_KEY)
+}
+
 // checks if someone was already signed in when the page loaded
 export async function getCurrentUser(): Promise<User | null> {
   const id = localStorage.getItem(SESSION_KEY)
