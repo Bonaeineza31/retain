@@ -2,7 +2,8 @@
 
 A personal expense and budget manager. Record what you spend, set a monthly budget, and see where your money goes. All amounts are in Rwandan francs (RWF).
 
-**Live app:** 
+**Live app:** https://retain-kappa.vercel.app
+
 
 ## Features
 
