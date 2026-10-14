@@ -55,7 +55,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
   // phones get cards, a table would be too wide
   if (!isWide) {
     return (
-      <Box sx={{ display: 'grid', gap: 1.5 }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 1.5 }}>
         {expenses.map((expense) => (
           <Paper key={expense.id} sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>

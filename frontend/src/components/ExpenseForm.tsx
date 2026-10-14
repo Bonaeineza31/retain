@@ -95,7 +95,7 @@ export default function ExpenseForm({ categories, expense, onClose, onSaved }: P
       <form onSubmit={handleSubmit} noValidate>
         <DialogTitle>{expense ? 'Edit expense' : 'Add expense'}</DialogTitle>
         <DialogContent>
-          <Box sx={{ display: 'grid', gap: 2, pt: 1 }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 2, pt: 1 }}>
             {serverError && <Alert severity="error">{serverError}</Alert>}
 
             <TextField

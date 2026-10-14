@@ -78,7 +78,7 @@ export default function BudgetPage() {
           <CircularProgress />
         </Box>
       ) : (
-        <Box sx={{ display: 'grid', gap: 3, maxWidth: 720 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 3, maxWidth: 720 }}>
           <BudgetSummaryCard month={month} summary={loaded.summary} />
           <BudgetForm
             key={month + '-' + (loaded.summary.budget?.amount ?? 'none')}

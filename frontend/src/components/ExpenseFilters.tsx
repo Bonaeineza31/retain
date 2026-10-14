@@ -82,7 +82,7 @@ export default function ExpenseFilters({ categories }: Props) {
         sx={{
           display: 'grid',
           gap: { xs: 1.5, sm: 2 },
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
+          gridTemplateColumns: { xs: 'minmax(0, 1fr)', sm: 'repeat(2, minmax(0, 1fr))', md: 'repeat(4, minmax(0, 1fr))' },
         }}
       >
         <TextField

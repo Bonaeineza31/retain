@@ -97,11 +97,11 @@ export default function DashboardPage() {
           sx={{
             display: 'grid',
             gap: 3,
-            gridTemplateColumns: { xs: '1fr', md: '3fr 2fr' },
+            gridTemplateColumns: { xs: 'minmax(0, 1fr)', md: 'minmax(0, 3fr) minmax(0, 2fr)' },
             alignItems: 'start',
           }}
         >
-          <Box sx={{ display: 'grid', gap: 3 }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 3 }}>
             <BudgetSummaryCard month={month} summary={data.summary} />
             {!data.summary.budget && (
               <Box>
@@ -113,7 +113,7 @@ export default function DashboardPage() {
             <CategoryBreakdown items={data.spendingByCategory} categoryNames={categoryNames} />
           </Box>
 
-          <Box sx={{ display: 'grid', gap: 3 }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 3 }}>
             <Paper sx={{ p: { xs: 2, sm: 3 } }}>
               <Typography variant="h6" gutterBottom>
                 Highest expense

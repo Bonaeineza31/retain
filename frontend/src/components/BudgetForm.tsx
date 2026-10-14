@@ -48,7 +48,7 @@ export default function BudgetForm({ month, currentAmount, onSaved }: Props) {
       </Typography>
 
       <form onSubmit={handleSubmit} noValidate>
-        <Box sx={{ display: 'grid', gap: 2, maxWidth: 360 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 2, maxWidth: 360 }}>
           {serverError && <Alert severity="error">{serverError}</Alert>}
           <TextField
             label="Budget amount (RWF)"

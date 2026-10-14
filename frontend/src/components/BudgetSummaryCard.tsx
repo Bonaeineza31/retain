@@ -65,7 +65,7 @@ export default function BudgetSummaryCard({ month, summary }: Props) {
         sx={{
           display: 'grid',
           gap: 2,
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
+          gridTemplateColumns: { xs: 'minmax(0, 1fr)', sm: 'repeat(3, minmax(0, 1fr))' },
         }}
       >
         <Figure label="Budget" value={formatRWF(budget.amount)} />

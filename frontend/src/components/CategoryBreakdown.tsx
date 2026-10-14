@@ -22,12 +22,12 @@ export default function CategoryBreakdown({ items, categoryNames }: Props) {
       {items.length === 0 ? (
         <Typography sx={{ color: 'text.secondary' }}>No expenses this month.</Typography>
       ) : (
-        <Box sx={{ display: 'grid', gap: 2 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 2 }}>
           {items.map((item) => {
             const percent = Math.round((item.total / total) * 100)
             return (
               <Box key={item.categoryId}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, mb: 0.5 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', columnGap: 2, mb: 0.5 }}>
                   <Typography>{categoryNames[item.categoryId] || 'Unknown'}</Typography>
                   <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
                     {formatRWF(item.total)}
