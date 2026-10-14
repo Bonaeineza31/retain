@@ -38,6 +38,9 @@ export default function AppLayout() {
     navItems.push({ label: 'Admin', to: '/admin', icon: <AdminPanelSettingsOutlined /> })
   }
 
+  // sub pages like /admin/categories still highlight their main tab
+  const activeTo = navItems.find((item) => location.pathname.startsWith(item.to))?.to ?? false
+
   async function handleSignOut() {
     await signOut()
     navigate('/signin')
@@ -117,7 +120,7 @@ export default function AppLayout() {
           borderRadius: 0,
         }}
       >
-        <BottomNavigation showLabels value={location.pathname}>
+        <BottomNavigation showLabels value={activeTo}>
           {navItems.map((item) => (
             <BottomNavigationAction
               key={item.to}
