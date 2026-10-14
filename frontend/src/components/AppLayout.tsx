@@ -46,7 +46,7 @@ export default function AppLayout() {
         color="inherit"
         sx={{ bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}
       >
-        <Toolbar sx={{ gap: 2 }}>
+        <Toolbar sx={{ gap: { xs: 1, sm: 2 }, px: { xs: 1.5, sm: 3 } }}>
           <Box
             component={RouterLink}
             to="/dashboard"
@@ -81,13 +81,13 @@ export default function AppLayout() {
           <Typography sx={{ display: { xs: 'none', md: 'block' }, color: 'text.secondary' }}>
             {user?.name}
           </Typography>
-          <Button onClick={handleSignOut} color="inherit">
+          <Button onClick={handleSignOut} color="inherit" sx={{ whiteSpace: 'nowrap' }}>
             Sign out
           </Button>
         </Toolbar>
       </AppBar>
 
-      <Container component="main" maxWidth="lg" sx={{ py: 4 }}>
+      <Container component="main" maxWidth="lg" sx={{ py: { xs: 2, sm: 4 }, px: { xs: 1.5, sm: 3 } }}>
         <Outlet />
       </Container>
 

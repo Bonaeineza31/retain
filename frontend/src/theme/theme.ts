@@ -24,10 +24,11 @@ const theme = createTheme({
   shape: { borderRadius: 6 },
   typography: {
     fontFamily: '"DM Sans", system-ui, sans-serif',
-    h1: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600 },
-    h2: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600 },
-    h3: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600 },
-    h4: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600 },
+    // the big headings shrink with the screen, but never below a readable size
+    h1: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600, fontSize: 'clamp(2.25rem, 10vw, 3.75rem)' },
+    h2: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600, fontSize: 'clamp(2rem, 8vw, 3rem)' },
+    h3: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600, fontSize: 'clamp(1.75rem, 7vw, 2.5rem)' },
+    h4: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600, fontSize: 'clamp(1.5rem, 6vw, 2rem)' },
     h5: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600 },
     h6: { fontFamily: '"Fraunces", Georgia, serif', fontWeight: 600 },
     button: { textTransform: 'none', fontWeight: 600 },
@@ -50,6 +51,21 @@ const theme = createTheme({
     },
     MuiTextField: {
       defaultProps: { size: 'small' },
+    },
+    // slightly smaller text inside inputs on phones so dates and labels fit
+    MuiInputBase: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          [theme.breakpoints.down('sm')]: { fontSize: '0.875rem' },
+        }),
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          [theme.breakpoints.down('sm')]: { fontSize: '0.875rem' },
+        }),
+      },
     },
   },
 })

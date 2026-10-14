@@ -77,11 +77,11 @@ export default function ExpenseFilters({ categories }: Props) {
   const sortValue = filters.sortBy + '-' + filters.sortOrder
 
   return (
-    <Paper sx={{ p: 2, mb: 3 }}>
+    <Paper sx={{ p: { xs: 1.5, sm: 2 }, mb: 3 }}>
       <Box
         sx={{
           display: 'grid',
-          gap: 2,
+          gap: { xs: 1.5, sm: 2 },
           gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
         }}
       >
@@ -107,7 +107,7 @@ export default function ExpenseFilters({ categories }: Props) {
         </TextField>
         <TextField
           select
-          label="Payment method"
+          label="Payment"
           value={filters.paymentMethod}
           onChange={(e) => dispatch(setPaymentMethod(e.target.value as PaymentMethod | ''))}
         >
@@ -134,14 +134,14 @@ export default function ExpenseFilters({ categories }: Props) {
           slotProps={{ inputLabel: { shrink: true } }}
         />
         <TextField
-          label="Min amount (RWF)"
+          label="Min (RWF)"
           type="number"
           value={minText}
           onChange={(e) => setMinText(e.target.value)}
           slotProps={{ htmlInput: { min: 0 } }}
         />
         <TextField
-          label="Max amount (RWF)"
+          label="Max (RWF)"
           type="number"
           value={maxText}
           onChange={(e) => setMaxText(e.target.value)}
