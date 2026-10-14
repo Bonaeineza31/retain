@@ -3,25 +3,18 @@ import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 
-// Temporary page to check the routes and the colors.
+// Temporary content. The real dashboard comes later.
 export default function DashboardPage() {
-  const { user, isAdmin, signOut } = useAuth()
-  const navigate = useNavigate()
-
-  async function handleSignOut() {
-    await signOut()
-    navigate('/signin')
-  }
+  const { user } = useAuth()
 
   return (
-    <Box sx={{ p: 4, maxWidth: 560 }}>
+    <Box sx={{ maxWidth: 560 }}>
       <Typography variant="h3" gutterBottom>
         Hello, {user?.name}
       </Typography>
-      <Paper sx={{ p: 3, mb: 2 }}>
+      <Paper sx={{ p: 3 }}>
         <Typography variant="h6">Monthly budget</Typography>
         <Typography color="text.secondary" sx={{ mb: 2 }}>
           226,000 RWF spent of 300,000 RWF
@@ -38,12 +31,6 @@ export default function DashboardPage() {
           View all
         </Button>
       </Paper>
-      {isAdmin && (
-        <Button component={RouterLink} to="/admin" color="secondary" sx={{ mr: 1 }}>
-          Admin dashboard
-        </Button>
-      )}
-      <Button onClick={handleSignOut}>Sign out</Button>
     </Box>
   )
 }
