@@ -73,6 +73,23 @@ export function getSessionUserId(): string | null {
   return localStorage.getItem(SESSION_KEY)
 }
 
+// stops the call unless an admin is signed in. used by the admin services.
+// the real backend checks the role from the token on every admin endpoint.
+export function requireAdmin() {
+  const user = getSessionUser()
+  if (!user) {
+    throw new Error('You need to sign in first')
+  }
+  if (user.role !== 'admin') {
+    throw new Error('Only admins can do this')
+  }
+}
+
+// every account, for the admin insights (mock only)
+export function getAllUsers(): User[] {
+  return getUsers().map(withoutPassword)
+}
+
 // same idea, but gives the whole user so services can check the role
 export function getSessionUser(): User | null {
   const id = getSessionUserId()

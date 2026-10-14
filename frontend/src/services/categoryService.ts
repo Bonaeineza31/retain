@@ -1,5 +1,5 @@
 import type { Category, CategoryInput } from '../types/category'
-import { getSessionUser } from './authService'
+import { getSessionUser, requireAdmin } from './authService'
 import { moveExpensesToCategory } from './expenseService'
 import { mockCategories } from './mockData'
 
@@ -17,16 +17,6 @@ function saveCategories(categories: Category[]) {
   localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories))
 }
 
-function requireAdmin() {
-  const user = getSessionUser()
-  if (!user) {
-    throw new Error('You need to sign in first')
-  }
-  if (user.role !== 'admin') {
-    throw new Error('Only admins can do this')
-  }
-}
-
 function checkNameIsFree(name: string, ignoreId?: string) {
   const taken = getCategories().some(
     (c) => c.id !== ignoreId && c.name.toLowerCase() === name.toLowerCase(),
@@ -34,6 +24,11 @@ function checkNameIsFree(name: string, ignoreId?: string) {
   if (taken) {
     throw new Error('A category with this name already exists')
   }
+}
+
+// the plain list, for other mock services that need the categories (mock only)
+export function getEveryCategory(): Category[] {
+  return getCategories()
 }
 
 // any signed in user can read the categories

@@ -31,6 +31,11 @@ function getMyExpenses(): Expense[] {
   return getAllExpenses().filter((e) => e.userId === userId)
 }
 
+// every expense of every user, for the admin insights (mock only)
+export function getEveryExpense(): Expense[] {
+  return getAllExpenses()
+}
+
 // the helpers below are used by the budget and dashboard services.
 // the real backend does this work inside those endpoints.
 
