@@ -16,20 +16,20 @@ export default function DashboardPage() {
       </Typography>
       <Paper sx={{ p: 3 }}>
         <Typography variant="h6">Monthly budget</Typography>
-        <Typography color="text.secondary" sx={{ mb: 2 }}>
+        <Typography sx={{ mb: 2, color: 'text.secondary' }}>
           226,000 RWF spent of 300,000 RWF
         </Typography>
-        <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
           <Chip label="Within" color="success" />
           <Chip label="Approaching" color="warning" />
           <Chip label="Over" color="error" />
         </Box>
-        <Button variant="contained" sx={{ mr: 1 }}>
-          Add expense
-        </Button>
-        <Button variant="outlined" color="secondary">
-          View all
-        </Button>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+          <Button variant="contained">Add expense</Button>
+          <Button variant="outlined" color="secondary">
+            View all
+          </Button>
+        </Box>
       </Paper>
     </Box>
   )

@@ -10,7 +10,7 @@ export default function NotFoundPage() {
         <Typography variant="h2" gutterBottom>
           404
         </Typography>
-        <Typography color="text.secondary" sx={{ mb: 2 }}>
+        <Typography sx={{ mb: 2, color: 'text.secondary' }}>
           This page does not exist.
         </Typography>
         <Button component={RouterLink} to="/dashboard" variant="contained">

@@ -115,7 +115,7 @@ export default function SignUpPage() {
             {submitting ? 'Creating account...' : 'Create account'}
           </Button>
 
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             Already have an account?{' '}
             <Link component={RouterLink} to="/signin">
               Sign in

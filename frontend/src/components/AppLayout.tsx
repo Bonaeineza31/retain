@@ -51,7 +51,7 @@ export default function AppLayout() {
             sx={{ display: 'flex', alignItems: 'center', gap: 1, textDecoration: 'none' }}
           >
             <Box component="img" src="/logo.svg" alt="" sx={{ width: 32, height: 32 }} />
-            <Typography variant="h6" color="primary.dark">
+            <Typography variant="h6" sx={{ color: 'primary.dark' }}>
               Retain
             </Typography>
           </Box>
@@ -76,7 +76,7 @@ export default function AppLayout() {
           </Box>
 
           <Box sx={{ flexGrow: { xs: 1, sm: 0 } }} />
-          <Typography sx={{ display: { xs: 'none', md: 'block' } }} color="text.secondary">
+          <Typography sx={{ display: { xs: 'none', md: 'block' }, color: 'text.secondary' }}>
             {user?.name}
           </Typography>
           <Button onClick={handleSignOut} color="inherit">

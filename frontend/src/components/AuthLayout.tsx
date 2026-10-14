@@ -15,7 +15,7 @@ export default function AuthLayout({ title, subtitle, children }: Props) {
       <Box sx={{ width: '100%', maxWidth: 420 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
           <Box component="img" src="/logo.svg" alt="" sx={{ width: 32, height: 32 }} />
-          <Typography variant="h5" color="primary.dark">
+          <Typography variant="h5" sx={{ color: 'primary.dark' }}>
             Retain
           </Typography>
         </Box>
@@ -23,7 +23,7 @@ export default function AuthLayout({ title, subtitle, children }: Props) {
           <Typography variant="h4" gutterBottom>
             {title}
           </Typography>
-          <Typography color="text.secondary" sx={{ mb: 3 }}>
+          <Typography sx={{ mb: 3, color: 'text.secondary' }}>
             {subtitle}
           </Typography>
           {children}

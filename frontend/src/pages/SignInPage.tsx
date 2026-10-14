@@ -90,7 +90,7 @@ export default function SignInPage() {
             {submitting ? 'Signing in...' : 'Sign in'}
           </Button>
 
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             New to Retain?{' '}
             <Link component={RouterLink} to="/signup">
               Create an account
