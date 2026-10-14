@@ -8,6 +8,7 @@ import { useState, type FormEvent } from 'react'
 import { saveBudget } from '../services/budgetService'
 import { formatMonth } from '../utils/format'
 import { validateBudgetForm } from '../utils/validators'
+import { getErrorMessage } from '../utils/errors'
 
 interface Props {
   month: string
@@ -16,12 +17,14 @@ interface Props {
   onSaved: () => void
 }
 
+// The form to set or change the budget of a month.
 export default function BudgetForm({ month, currentAmount, onSaved }: Props) {
   const [amount, setAmount] = useState(currentAmount !== undefined ? String(currentAmount) : '')
   const [error, setError] = useState('')
   const [serverError, setServerError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
+  // Checks the amount, then saves the budget.
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
@@ -36,7 +39,7 @@ export default function BudgetForm({ month, currentAmount, onSaved }: Props) {
       await saveBudget({ month, amount: Number(amount) })
       onSaved()
     } catch (err) {
-      setServerError(err instanceof Error ? err.message : 'Something went wrong')
+      setServerError(getErrorMessage(err))
     }
     setSubmitting(false)
   }

@@ -5,6 +5,7 @@ import { mockExpenses } from './mockData'
 
 const EXPENSES_KEY = 'retain.expenses'
 
+// Reads every expense from the browser's storage (mock only).
 function getAllExpenses(): Expense[] {
   const saved = localStorage.getItem(EXPENSES_KEY)
   if (saved) {
@@ -13,10 +14,12 @@ function getAllExpenses(): Expense[] {
   return mockExpenses
 }
 
+// Saves every expense in the browser's storage (mock only).
 function saveExpenses(expenses: Expense[]) {
   localStorage.setItem(EXPENSES_KEY, JSON.stringify(expenses))
 }
 
+// Gives the id of the signed in person, or stops if nobody is signed in.
 function requireUserId(): string {
   const userId = getSessionUserId()
   if (!userId) {
@@ -58,6 +61,7 @@ export function getRecentExpenses(limit: number): Expense[] {
     .slice(0, limit)
 }
 
+// Says if one expense passes the search and all the filters.
 function matchesFilters(expense: Expense, filters: ExpenseFiltersState): boolean {
   const search = filters.search.trim().toLowerCase()
   if (search) {
@@ -77,6 +81,7 @@ function matchesFilters(expense: Expense, filters: ExpenseFiltersState): boolean
   return true
 }
 
+// Puts the expenses in order: by date or amount, going up or down.
 function sortExpenses(expenses: Expense[], filters: ExpenseFiltersState): Expense[] {
   const direction = filters.sortOrder === 'asc' ? 1 : -1
 
@@ -92,6 +97,7 @@ function sortExpenses(expenses: Expense[], filters: ExpenseFiltersState): Expens
   })
 }
 
+// Gets one page of the user's expenses, after search, filters and sorting.
 export async function listExpenses(filters: ExpenseFiltersState): Promise<ExpenseList> {
   const matching = getMyExpenses().filter((e) => matchesFilters(e, filters))
   const sorted = sortExpenses(matching, filters)
@@ -103,6 +109,7 @@ export async function listExpenses(filters: ExpenseFiltersState): Promise<Expens
   }
 }
 
+// Gets a single expense. Fails if it belongs to someone else.
 export async function getExpense(id: string): Promise<Expense> {
   const expense = getMyExpenses().find((e) => e.id === id)
   if (!expense) {
@@ -111,6 +118,7 @@ export async function getExpense(id: string): Promise<Expense> {
   return expense
 }
 
+// Saves a new expense for the signed in person.
 export async function createExpense(input: ExpenseInput): Promise<Expense> {
   const userId = requireUserId()
 
@@ -125,6 +133,7 @@ export async function createExpense(input: ExpenseInput): Promise<Expense> {
   return expense
 }
 
+// Changes an existing expense.
 export async function updateExpense(id: string, input: ExpenseInput): Promise<Expense> {
   const existing = await getExpense(id)
   const updated: Expense = { ...existing, ...input }

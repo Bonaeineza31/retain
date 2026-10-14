@@ -23,14 +23,17 @@ interface Props {
   onDelete: (expense: Expense) => void
 }
 
+// Shows the expenses as a table on big screens and as cards on phones.
 export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete }: Props) {
   const theme = useTheme()
   const isWide = useMediaQuery(theme.breakpoints.up('sm'))
 
+  // The name of the category an expense belongs to.
   function categoryOf(expense: Expense) {
     return categoryNames[expense.categoryId] || 'Unknown'
   }
 
+  // The edit and delete buttons of one expense.
   function actionsFor(expense: Expense) {
     return (
       <>

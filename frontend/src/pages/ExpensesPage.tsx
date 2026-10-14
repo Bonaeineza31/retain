@@ -17,7 +17,9 @@ import { useAppDispatch, useAppSelector } from '../store/hooks'
 import type { Category } from '../types/category'
 import type { Expense, ExpenseList as ExpenseListResult } from '../types/expense'
 import { formatRWF } from '../utils/format'
+import { getErrorMessage } from '../utils/errors'
 
+// The expense list with search, filters, sorting, pages, and add, edit and delete.
 export default function ExpensesPage() {
   const dispatch = useAppDispatch()
   const filters = useAppSelector((state) => state.expenseFilters)
@@ -41,7 +43,7 @@ export default function ExpensesPage() {
   useEffect(() => {
     listCategories()
       .then(setCategories)
-      .catch((err) => setError(err.message))
+      .catch((err: unknown) => setError(getErrorMessage(err)))
   }, [])
 
   // load again whenever a filter, the sort or the page changes
@@ -59,8 +61,8 @@ export default function ExpensesPage() {
         setLoaded({ filters, data })
         setError('')
       })
-      .catch((err) => {
-        if (!outdated) setError(err.message)
+      .catch((err: unknown) => {
+        if (!outdated) setError(getErrorMessage(err))
       })
 
     // if the filters change again before this finishes, ignore this answer
@@ -83,22 +85,26 @@ export default function ExpensesPage() {
 
   const pageCount = Math.max(1, Math.ceil(result.total / filters.pageSize))
 
+  // Opens the form empty, to add a new expense.
   function openAdd() {
     setEditing(undefined)
     setFormOpen(true)
   }
 
+  // Opens the form filled in, to change an expense.
   function openEdit(expense: Expense) {
     setEditing(expense)
     setFormOpen(true)
   }
 
+  // Closes the form, shows a message and loads the list again.
   function handleSaved(text: string) {
     setFormOpen(false)
     setMessage(text)
     setReloadCount(reloadCount + 1)
   }
 
+  // Deletes the chosen expense after the user said yes.
   async function handleConfirmDelete() {
     if (!deleting) return
     setDeleteBusy(true)
@@ -107,7 +113,7 @@ export default function ExpensesPage() {
       setMessage('Expense deleted')
       setReloadCount(reloadCount + 1)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong')
+      setError(getErrorMessage(err))
     }
     setDeleteBusy(false)
     setDeleting(null)

@@ -23,6 +23,7 @@ interface NavItem {
   icon: ReactNode
 }
 
+// The frame around every signed in page: a top bar on big screens, a tab bar on phones.
 export default function AppLayout() {
   const { user, isAdmin, signOut } = useAuth()
   const navigate = useNavigate()
@@ -41,6 +42,7 @@ export default function AppLayout() {
   // sub pages like /admin/categories still highlight their main tab
   const activeTo = navItems.find((item) => location.pathname.startsWith(item.to))?.to ?? false
 
+  // Signs out and goes back to the sign in page.
   async function handleSignOut() {
     await signOut()
     navigate('/signin')

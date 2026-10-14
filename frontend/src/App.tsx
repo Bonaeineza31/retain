@@ -12,6 +12,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 
+// All the pages of the app. Some need a signed in user and some are only for admins.
 function App() {
   return (
     <BrowserRouter>

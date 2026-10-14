@@ -5,6 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField, { type TextFieldProps } from '@mui/material/TextField'
 import { useState } from 'react'
 
+// A password box with a button to show or hide what was typed.
 export default function PasswordField(props: TextFieldProps) {
   const [visible, setVisible] = useState(false)
 

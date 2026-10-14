@@ -6,6 +6,7 @@ import { mockBudgets } from './mockData'
 
 const BUDGETS_KEY = 'retain.budgets'
 
+// Reads every budget from the browser's storage (mock only).
 function getAllBudgets(): Budget[] {
   const saved = localStorage.getItem(BUDGETS_KEY)
   if (saved) {
@@ -14,10 +15,12 @@ function getAllBudgets(): Budget[] {
   return mockBudgets
 }
 
+// Saves every budget in the browser's storage (mock only).
 function saveBudgets(budgets: Budget[]) {
   localStorage.setItem(BUDGETS_KEY, JSON.stringify(budgets))
 }
 
+// Gives the id of the signed in person, or stops if nobody is signed in.
 function requireUserId(): string {
   const userId = getSessionUserId()
   if (!userId) {

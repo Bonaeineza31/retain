@@ -11,7 +11,9 @@ import StatTile from '../components/StatTile'
 import { getInsights } from '../services/adminService'
 import type { AdminInsights } from '../types/admin'
 import { formatDate, formatRWF } from '../utils/format'
+import { getErrorMessage } from '../utils/errors'
 
+// The admin overview: totals, category usage and recent activity.
 export default function AdminDashboardPage() {
   const [insights, setInsights] = useState<AdminInsights | null>(null)
   const [error, setError] = useState('')
@@ -19,7 +21,7 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     getInsights()
       .then(setInsights)
-      .catch((err) => setError(err.message))
+      .catch((err: unknown) => setError(getErrorMessage(err)))
   }, [])
 
   // the category chart reuses the user dashboard component,

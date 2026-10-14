@@ -19,6 +19,7 @@ import {
   type ExpenseFormValues,
   type FormErrors,
 } from '../utils/validators'
+import { getErrorMessage } from '../utils/errors'
 
 interface Props {
   categories: Category[]
@@ -28,6 +29,7 @@ interface Props {
   onSaved: (message: string) => void
 }
 
+// The pop-up form for adding a new expense or editing one.
 export default function ExpenseForm({ categories, expense, onClose, onSaved }: Props) {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
@@ -44,6 +46,7 @@ export default function ExpenseForm({ categories, expense, onClose, onSaved }: P
   const [serverError, setServerError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
+  // Keeps what was typed and clears the error of that field.
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
     setValues({ ...values, [name]: value })
@@ -51,6 +54,7 @@ export default function ExpenseForm({ categories, expense, onClose, onSaved }: P
     setServerError('')
   }
 
+  // Checks the form, then saves the expense.
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
@@ -79,7 +83,7 @@ export default function ExpenseForm({ categories, expense, onClose, onSaved }: P
         onSaved('Expense added')
       }
     } catch (error) {
-      setServerError(error instanceof Error ? error.message : 'Something went wrong')
+      setServerError(getErrorMessage(error))
       setSubmitting(false)
     }
   }

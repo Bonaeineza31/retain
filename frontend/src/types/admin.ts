@@ -1,6 +1,7 @@
 import type { Expense } from './expense'
 import type { User } from './user'
 
+// How much one category is used, counting all users.
 export interface CategoryStat {
   categoryId: string
   name: string
@@ -10,10 +11,12 @@ export interface CategoryStat {
   total: number
 }
 
+// An expense plus the name of the person who made it.
 export interface AdminExpense extends Expense {
   userName: string
 }
 
+// All the numbers on the admin dashboard.
 export interface AdminInsights {
   totalUsers: number
   totalExpenses: number

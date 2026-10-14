@@ -7,6 +7,7 @@ import { getAllUsers, requireAdmin } from './authService'
 import { getEveryCategory } from './categoryService'
 import { getEveryExpense } from './expenseService'
 
+// For each category, counts its expenses and adds up the money.
 function buildCategoryStats(categories: Category[], expenses: Expense[]): CategoryStat[] {
   return categories.map((category) => {
     const used = expenses.filter((e) => e.categoryId === category.id)

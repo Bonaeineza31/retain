@@ -5,6 +5,7 @@ import { mockCategories } from './mockData'
 
 const CATEGORIES_KEY = 'retain.categories'
 
+// Reads the categories from the browser's storage (mock only).
 function getCategories(): Category[] {
   const saved = localStorage.getItem(CATEGORIES_KEY)
   if (saved) {
@@ -13,10 +14,12 @@ function getCategories(): Category[] {
   return mockCategories
 }
 
+// Saves the categories in the browser's storage (mock only).
 function saveCategories(categories: Category[]) {
   localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories))
 }
 
+// Stops if another category already uses this name.
 function checkNameIsFree(name: string, ignoreId?: string) {
   const taken = getCategories().some(
     (c) => c.id !== ignoreId && c.name.toLowerCase() === name.toLowerCase(),
@@ -39,6 +42,7 @@ export async function listCategories(): Promise<Category[]> {
   return getCategories()
 }
 
+// Creates a category. Admins only.
 export async function createCategory(input: CategoryInput): Promise<Category> {
   requireAdmin()
   const name = input.name.trim()
@@ -54,6 +58,7 @@ export async function createCategory(input: CategoryInput): Promise<Category> {
   return category
 }
 
+// Renames a category. Admins only.
 export async function updateCategory(id: string, input: CategoryInput): Promise<Category> {
   requireAdmin()
   const existing = getCategories().find((c) => c.id === id)

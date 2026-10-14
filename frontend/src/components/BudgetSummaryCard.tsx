@@ -12,6 +12,7 @@ interface Props {
   summary: BudgetSummary
 }
 
+// Shows how much of the month's budget is used, with a bar and a status.
 export default function BudgetSummaryCard({ month, summary }: Props) {
   const { budget, spent, remaining, status } = summary
 
@@ -80,6 +81,7 @@ export default function BudgetSummaryCard({ month, summary }: Props) {
   )
 }
 
+// One labelled number, like Spent or Remaining.
 function Figure({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <Box>

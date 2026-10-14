@@ -1,3 +1,4 @@
+// A group for expenses, like Food or Transport.
 export interface Category {
   id: string
   name: string
@@ -6,6 +7,7 @@ export interface Category {
   createdAt: string
 }
 
+// What the category form sends.
 export interface CategoryInput {
   name: string
 }

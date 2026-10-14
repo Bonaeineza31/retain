@@ -10,6 +10,7 @@ interface Props {
   categoryNames: Record<string, string>
 }
 
+// Bars showing how the spending is split between categories.
 export default function CategoryBreakdown({ items, categoryNames }: Props) {
   const total = items.reduce((sum, item) => sum + item.total, 0)
 

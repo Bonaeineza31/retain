@@ -9,6 +9,7 @@ import { useState, type FormEvent } from 'react'
 import { createCategory, updateCategory } from '../services/categoryService'
 import type { Category } from '../types/category'
 import { validateCategoryName } from '../utils/validators'
+import { getErrorMessage } from '../utils/errors'
 
 interface Props {
   // when this is given the form renames it, otherwise it adds a new category
@@ -19,12 +20,14 @@ interface Props {
   onSaved: (message: string) => void
 }
 
+// The pop-up form for adding or renaming a category.
 export default function CategoryForm({ category, existingNames, onClose, onSaved }: Props) {
   const [name, setName] = useState(category?.name ?? '')
   const [error, setError] = useState('')
   const [serverError, setServerError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
+  // Checks the name, then saves the category.
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
@@ -46,7 +49,7 @@ export default function CategoryForm({ category, existingNames, onClose, onSaved
         onSaved('Category added')
       }
     } catch (err) {
-      setServerError(err instanceof Error ? err.message : 'Something went wrong')
+      setServerError(getErrorMessage(err))
       setSubmitting(false)
     }
   }

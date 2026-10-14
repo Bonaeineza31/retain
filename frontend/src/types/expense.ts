@@ -1,3 +1,4 @@
+// The ways to pay. The form and the filter both use this list.
 export const PAYMENT_METHODS = [
   'cash',
   'mobile money',
@@ -7,6 +8,7 @@ export const PAYMENT_METHODS = [
 
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number]
 
+// One thing the user spent money on.
 export interface Expense {
   id: string
   userId: string
@@ -21,6 +23,7 @@ export interface Expense {
   createdAt: string
 }
 
+// What the expense form sends: everything except what the system fills in.
 export type ExpenseInput = Omit<Expense, 'id' | 'userId' | 'createdAt'>
 
 // one page of expenses, plus how many match in total

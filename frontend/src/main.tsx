@@ -8,6 +8,7 @@ import { store } from './store'
 import theme from './theme/theme'
 import App from './App.tsx'
 
+// Starts the app. The providers give every page the store, the theme and the sign in state.
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>

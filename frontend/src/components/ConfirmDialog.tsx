@@ -15,6 +15,7 @@ interface Props {
   onCancel: () => void
 }
 
+// A pop-up that asks "are you sure?" before something is deleted.
 export default function ConfirmDialog({
   open,
   title,

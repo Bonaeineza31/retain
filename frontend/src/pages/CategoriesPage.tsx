@@ -15,7 +15,9 @@ import CategoryForm from '../components/CategoryForm'
 import ConfirmDialog from '../components/ConfirmDialog'
 import { deleteCategory, listCategories } from '../services/categoryService'
 import type { Category } from '../types/category'
+import { getErrorMessage } from '../utils/errors'
 
+// The admin screen for adding, renaming and deleting categories.
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [error, setError] = useState('')
@@ -38,8 +40,8 @@ export default function CategoriesPage() {
           setError('')
         }
       })
-      .catch((err) => {
-        if (!outdated) setError(err.message)
+      .catch((err: unknown) => {
+        if (!outdated) setError(getErrorMessage(err))
       })
 
     return () => {
@@ -47,22 +49,26 @@ export default function CategoriesPage() {
     }
   }, [reloadCount])
 
+  // Opens the form empty, to add a new category.
   function openAdd() {
     setEditing(undefined)
     setFormOpen(true)
   }
 
+  // Opens the form filled in, to rename a category.
   function openRename(category: Category) {
     setEditing(category)
     setFormOpen(true)
   }
 
+  // Closes the form, shows a message and loads the list again.
   function handleSaved(text: string) {
     setFormOpen(false)
     setMessage(text)
     setReloadCount(reloadCount + 1)
   }
 
+  // Deletes the chosen category after the admin said yes.
   async function handleConfirmDelete() {
     if (!deleting) return
     setDeleteBusy(true)
@@ -71,7 +77,7 @@ export default function CategoriesPage() {
       setMessage('Category deleted')
       setReloadCount(reloadCount + 1)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong')
+      setError(getErrorMessage(err))
     }
     setDeleteBusy(false)
     setDeleting(null)

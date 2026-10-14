@@ -3,6 +3,7 @@ import { todayAsText } from './format'
 
 // Every validator returns an error message, or null when the value is fine.
 
+// Checks the email looks right: one @, a proper domain and no spaces.
 export function validateEmail(value: string): string | null {
   const email = value.trim()
 
@@ -44,6 +45,7 @@ export function validateEmail(value: string): string | null {
   return null
 }
 
+// Checks the password is long enough and has a letter and a number.
 export function validatePassword(value: string): string | null {
   if (!value) return 'Password is required'
   if (value.length < 8) return 'Password must be at least 8 characters'
@@ -54,6 +56,7 @@ export function validatePassword(value: string): string | null {
   return null
 }
 
+// Checks the second password box matches the first.
 export function validateConfirmPassword(
   password: string,
   confirm: string,
@@ -63,6 +66,7 @@ export function validateConfirmPassword(
   return null
 }
 
+// Checks the name is made of letters and is not too short or long.
 export function validateName(value: string): string | null {
   const name = value.trim()
 
@@ -75,6 +79,7 @@ export function validateName(value: string): string | null {
   return null
 }
 
+// Checks the title is not empty and not too long.
 export function validateTitle(value: string): string | null {
   const title = value.trim()
 
@@ -116,11 +121,13 @@ export function validateDate(value: string): string | null {
   return null
 }
 
+// Checks that a category was picked.
 export function validateCategoryChoice(value: string): string | null {
   if (!value) return 'Please choose a category'
   return null
 }
 
+// Checks that a payment method was picked and it is a real one.
 export function validatePaymentMethod(value: string): string | null {
   if (!value) return 'Please choose a payment method'
   if (!(PAYMENT_METHODS as readonly string[]).includes(value)) {
@@ -129,6 +136,7 @@ export function validatePaymentMethod(value: string): string | null {
   return null
 }
 
+// Checks the notes are not too long.
 export function validateNotes(value: string): string | null {
   if (value.length > 300) return 'Notes must be 300 characters or fewer'
   return null
@@ -141,6 +149,7 @@ export function validateBudgetMonth(value: string): string | null {
   return null
 }
 
+// Checks the budget is a whole number above zero.
 export function validateBudgetAmount(value: string): string | null {
   const text = value.trim()
 

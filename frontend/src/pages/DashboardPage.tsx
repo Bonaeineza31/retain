@@ -17,7 +17,9 @@ import type { Category } from '../types/category'
 import type { DashboardData } from '../types/dashboard'
 import { currentMonth, formatDate, formatRWF } from '../utils/format'
 import { validateBudgetMonth } from '../utils/validators'
+import { getErrorMessage } from '../utils/errors'
 
+// The home screen: this month's budget, spending and recent expenses.
 export default function DashboardPage() {
   const { user } = useAuth()
 
@@ -31,7 +33,7 @@ export default function DashboardPage() {
   useEffect(() => {
     listCategories()
       .then(setCategories)
-      .catch((err) => setError(err.message))
+      .catch((err: unknown) => setError(getErrorMessage(err)))
   }, [])
 
   useEffect(() => {
@@ -45,8 +47,8 @@ export default function DashboardPage() {
           setError('')
         }
       })
-      .catch((err) => {
-        if (!outdated) setError(err.message)
+      .catch((err: unknown) => {
+        if (!outdated) setError(getErrorMessage(err))
       })
 
     return () => {

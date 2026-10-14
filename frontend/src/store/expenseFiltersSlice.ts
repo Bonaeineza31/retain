@@ -1,9 +1,11 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { PaymentMethod } from '../types/expense'
 
+// What the expense list can be sorted by, and in which direction.
 export type SortBy = 'date' | 'amount'
 export type SortOrder = 'asc' | 'desc'
 
+// Everything the user typed or chose to narrow down the expense list.
 export interface ExpenseFiltersState {
   search: string
   // an empty string means "all"
@@ -21,6 +23,7 @@ export interface ExpenseFiltersState {
   pageSize: number
 }
 
+// No filters: show everything, newest first, 10 per page.
 export const initialFilters: ExpenseFiltersState = {
   search: '',
   categoryId: '',
@@ -35,6 +38,7 @@ export const initialFilters: ExpenseFiltersState = {
   pageSize: 10,
 }
 
+// The Redux slice: the actions that change the filters.
 const expenseFiltersSlice = createSlice({
   name: 'expenseFilters',
   initialState: initialFilters,

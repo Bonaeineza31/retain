@@ -8,6 +8,7 @@ export interface MockUser extends User {
   password: string
 }
 
+// Sample accounts for trying the app. The real database replaces them later.
 export const mockUsers: MockUser[] = [
   {
     id: 'u1',
@@ -35,6 +36,7 @@ export const mockUsers: MockUser[] = [
   },
 ]
 
+// Sample categories. The first one is the default.
 export const mockCategories: Category[] = [
   { id: 'c0', name: 'Uncategorized', isDefault: true, createdAt: '2026-08-01T08:00:00Z' },
   { id: 'c1', name: 'Food', isDefault: false, createdAt: '2026-08-01T08:00:00Z' },
@@ -46,6 +48,7 @@ export const mockCategories: Category[] = [
   { id: 'c7', name: 'Education', isDefault: false, createdAt: '2026-08-01T08:00:00Z' },
 ]
 
+// Sample expenses for September and October 2026.
 export const mockExpenses: Expense[] = [
   { id: 'e1', userId: 'u1', title: 'Monthly rent', amount: 150000, categoryId: 'c3', date: '2026-10-01', paymentMethod: 'bank transfer', createdAt: '2026-10-01T07:00:00Z' },
   { id: 'e2', userId: 'u1', title: 'Market vegetables', amount: 12500, categoryId: 'c1', date: '2026-10-02', paymentMethod: 'cash', notes: 'Kimironko market', createdAt: '2026-10-02T10:15:00Z' },
@@ -62,6 +65,7 @@ export const mockExpenses: Expense[] = [
   { id: 'e13', userId: 'u2', title: 'Textbooks', amount: 18000, categoryId: 'c7', date: '2026-10-09', paymentMethod: 'cash', createdAt: '2026-10-09T10:00:00Z' },
 ]
 
+// Sample monthly budgets.
 export const mockBudgets: Budget[] = [
   { id: 'b1', userId: 'u1', month: '2026-10', amount: 300000 },
   { id: 'b2', userId: 'u1', month: '2026-09', amount: 250000 },

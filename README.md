@@ -47,6 +47,35 @@ retain-1/
 
 ## Setup
 
+### Frontend
+
+You need Node.js 20 or newer.
+
+```
+cd frontend
+npm install
+npm run dev
+```
+
+Then open the address the terminal prints (usually http://localhost:5173).
+
+Other commands: `npm run build` makes a production build, and `npm run lint` checks the code.
+
+For now the app runs on sample data saved in the browser, so no backend is needed. To start again from the sample data, clear the site data for the page in your browser.
+
+### Demo accounts
+
+| Role | Email | Password |
+| --- | --- | --- |
+| User | aline@retain.rw | password123 |
+| User | eric@retain.rw | password123 |
+| Admin | admin@retain.rw | admin123 |
+
+### Backend
+
+_Coming with the backend._
 
 ## API
+
+_Endpoint documentation will be added with the backend._
 

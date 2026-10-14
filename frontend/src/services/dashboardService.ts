@@ -3,6 +3,7 @@ import type { Expense } from '../types/expense'
 import { getBudgetSummary } from './budgetService'
 import { getExpensesForMonth, getRecentExpenses } from './expenseService'
 
+// Finds the most expensive expense in a list.
 function findHighest(expenses: Expense[]): Expense | null {
   let highest: Expense | null = null
   for (const expense of expenses) {
@@ -13,6 +14,7 @@ function findHighest(expenses: Expense[]): Expense | null {
   return highest
 }
 
+// Adds up the spending of each category, biggest first.
 function totalsByCategory(expenses: Expense[]): CategorySpending[] {
   const totals: Record<string, number> = {}
   for (const expense of expenses) {

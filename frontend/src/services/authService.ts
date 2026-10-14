@@ -4,6 +4,7 @@ import { mockUsers, type MockUser } from './mockData'
 const USERS_KEY = 'retain.users'
 const SESSION_KEY = 'retain.session'
 
+// Reads all the accounts from the browser's storage (mock only).
 function getUsers(): MockUser[] {
   const saved = localStorage.getItem(USERS_KEY)
   if (saved) {
@@ -12,6 +13,7 @@ function getUsers(): MockUser[] {
   return mockUsers
 }
 
+// Saves all the accounts in the browser's storage (mock only).
 function saveUsers(users: MockUser[]) {
   localStorage.setItem(USERS_KEY, JSON.stringify(users))
 }
@@ -27,6 +29,7 @@ function withoutPassword(user: MockUser): User {
   }
 }
 
+// Creates a new account and signs it in.
 export async function signUp(input: SignUpInput): Promise<User> {
   const users = getUsers()
   const email = input.email.trim().toLowerCase()
@@ -49,6 +52,7 @@ export async function signUp(input: SignUpInput): Promise<User> {
   return withoutPassword(newUser)
 }
 
+// Checks the email and password, then signs the person in.
 export async function signIn(input: SignInInput): Promise<User> {
   const email = input.email.trim().toLowerCase()
   const user = getUsers().find(
@@ -63,6 +67,7 @@ export async function signIn(input: SignInInput): Promise<User> {
   return withoutPassword(user)
 }
 
+// Forgets who was signed in.
 export async function signOut() {
   localStorage.removeItem(SESSION_KEY)
 }

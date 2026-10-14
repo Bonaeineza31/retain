@@ -13,6 +13,7 @@ interface Props {
   categoryNames: Record<string, string>
 }
 
+// A short list of the latest expenses.
 export default function RecentExpenses({ expenses, categoryNames }: Props) {
   return (
     <Paper sx={{ p: { xs: 2, sm: 3 } }}>

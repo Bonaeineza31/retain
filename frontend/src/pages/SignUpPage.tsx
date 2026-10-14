@@ -14,7 +14,9 @@ import {
   type FormErrors,
   type SignUpFormValues,
 } from '../utils/validators'
+import { getErrorMessage } from '../utils/errors'
 
+// The sign up screen.
 export default function SignUpPage() {
   const { user, signUp } = useAuth()
   const navigate = useNavigate()
@@ -33,6 +35,7 @@ export default function SignUpPage() {
     return <Navigate to="/dashboard" replace />
   }
 
+  // Keeps what was typed and clears the error of that field.
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
     setValues({ ...values, [name]: value })
@@ -40,6 +43,7 @@ export default function SignUpPage() {
     setServerError('')
   }
 
+  // Checks the form, then creates the account.
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
@@ -58,7 +62,7 @@ export default function SignUpPage() {
       })
       navigate('/dashboard', { replace: true })
     } catch (error) {
-      setServerError(error instanceof Error ? error.message : 'Something went wrong')
+      setServerError(getErrorMessage(error))
       setSubmitting(false)
     }
   }

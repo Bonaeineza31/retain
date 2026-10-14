@@ -11,7 +11,9 @@ import { getBudgetSummary } from '../services/budgetService'
 import type { BudgetSummary } from '../types/budget'
 import { currentMonth } from '../utils/format'
 import { validateBudgetMonth } from '../utils/validators'
+import { getErrorMessage } from '../utils/errors'
 
+// Lets the user pick a month, see its budget and change it.
 export default function BudgetPage() {
   const [month, setMonth] = useState(currentMonth())
   const [loaded, setLoaded] = useState<{ month: string; summary: BudgetSummary } | null>(null)
@@ -34,8 +36,8 @@ export default function BudgetPage() {
           setError('')
         }
       })
-      .catch((err) => {
-        if (!outdated) setError(err.message)
+      .catch((err: unknown) => {
+        if (!outdated) setError(getErrorMessage(err))
       })
 
     return () => {
@@ -45,6 +47,7 @@ export default function BudgetPage() {
 
   const loading = monthIsValid && !error && loaded?.month !== month
 
+  // Shows a message and loads the summary again.
   function handleSaved() {
     setMessage('Budget saved')
     setReloadCount(reloadCount + 1)

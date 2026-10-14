@@ -37,6 +37,7 @@ function toAmount(text: string): number | null {
   return Number.isNaN(value) ? null : value
 }
 
+// The search box, the filters and the sort choice above the expense list.
 export default function ExpenseFilters({ categories }: Props) {
   const dispatch = useAppDispatch()
   const filters = useAppSelector((state) => state.expenseFilters)
@@ -67,6 +68,7 @@ export default function ExpenseFilters({ categories }: Props) {
     return () => clearTimeout(timer)
   }, [minText, maxText, filters.minAmount, filters.maxAmount, dispatch])
 
+  // Clears every filter and empties the boxes.
   function handleReset() {
     dispatch(resetFilters())
     setSearchText('')

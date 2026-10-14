@@ -3,6 +3,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { Link as RouterLink } from 'react-router-dom'
 
+// Shown when the address does not match any page.
 export default function NotFoundPage() {
   return (
     <Box sx={{ display: 'grid', placeItems: 'center', minHeight: '100vh', textAlign: 'center' }}>

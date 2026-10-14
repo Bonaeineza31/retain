@@ -9,6 +9,7 @@ interface Props {
   children: ReactNode
 }
 
+// The card with the logo around the sign in and sign up forms.
 export default function AuthLayout({ title, subtitle, children }: Props) {
   return (
     <Box sx={{ display: 'grid', placeItems: 'center', minHeight: '100vh', p: 2 }}>

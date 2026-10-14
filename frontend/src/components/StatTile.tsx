@@ -6,6 +6,7 @@ interface Props {
   value: string
 }
 
+// A small box with one label and one big number.
 export default function StatTile({ label, value }: Props) {
   return (
     <Paper sx={{ p: { xs: 2, sm: 2.5 }, borderLeft: 4, borderLeftColor: 'primary.main' }}>

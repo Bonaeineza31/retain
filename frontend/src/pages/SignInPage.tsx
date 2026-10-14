@@ -14,7 +14,9 @@ import {
   type FormErrors,
   type SignInFormValues,
 } from '../utils/validators'
+import { getErrorMessage } from '../utils/errors'
 
+// The sign in screen.
 export default function SignInPage() {
   const { user, signIn } = useAuth()
   const navigate = useNavigate()
@@ -32,6 +34,7 @@ export default function SignInPage() {
   // go back to the page they were trying to open, or the dashboard
   const from = location.state?.from?.pathname || '/dashboard'
 
+  // Keeps what was typed and clears the error of that field.
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
     setValues({ ...values, [name]: value })
@@ -39,6 +42,7 @@ export default function SignInPage() {
     setServerError('')
   }
 
+  // Checks the form, then signs the person in.
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
@@ -53,7 +57,7 @@ export default function SignInPage() {
       await signIn(values)
       navigate(from, { replace: true })
     } catch (error) {
-      setServerError(error instanceof Error ? error.message : 'Something went wrong')
+      setServerError(getErrorMessage(error))
       setSubmitting(false)
     }
   }

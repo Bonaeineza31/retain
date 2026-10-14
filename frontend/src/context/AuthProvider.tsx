@@ -7,6 +7,7 @@ interface Props {
   children: ReactNode
 }
 
+// Keeps track of who is signed in and shares it with the whole app.
 export default function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
@@ -19,16 +20,19 @@ export default function AuthProvider({ children }: Props) {
     })
   }, [])
 
+  // Signs the person in and remembers them.
   async function signIn(input: SignInInput) {
     const signedIn = await authService.signIn(input)
     setUser(signedIn)
   }
 
+  // Creates the account and signs the person in.
   async function signUp(input: SignUpInput) {
     const created = await authService.signUp(input)
     setUser(created)
   }
 
+  // Signs the person out and forgets them.
   async function signOut() {
     await authService.signOut()
     setUser(null)
