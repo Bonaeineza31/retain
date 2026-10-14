@@ -14,7 +14,7 @@ export default function DashboardPage() {
       <Typography variant="h3" gutterBottom>
         Hello, {user?.name}
       </Typography>
-      <Paper sx={{ p: 3 }}>
+      <Paper sx={{ p: { xs: 2, sm: 3 } }}>
         <Typography variant="h6">Monthly budget</Typography>
         <Typography sx={{ mb: 2, color: 'text.secondary' }}>
           226,000 RWF spent of 300,000 RWF

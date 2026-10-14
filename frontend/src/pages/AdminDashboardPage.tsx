@@ -9,7 +9,7 @@ export default function AdminDashboardPage() {
       <Typography variant="h3" gutterBottom>
         Admin
       </Typography>
-      <Paper sx={{ p: 3, borderColor: 'secondary.main' }}>
+      <Paper sx={{ p: { xs: 2, sm: 3 }, borderColor: 'secondary.main' }}>
         <Typography>Only admins can see this page.</Typography>
       </Paper>
     </Box>

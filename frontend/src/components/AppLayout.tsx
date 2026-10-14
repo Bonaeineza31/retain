@@ -1,5 +1,6 @@
 import AdminPanelSettingsOutlined from '@mui/icons-material/AdminPanelSettingsOutlined'
 import DashboardOutlined from '@mui/icons-material/DashboardOutlined'
+import LogoutOutlined from '@mui/icons-material/LogoutOutlined'
 import ReceiptLongOutlined from '@mui/icons-material/ReceiptLongOutlined'
 import AppBar from '@mui/material/AppBar'
 import BottomNavigation from '@mui/material/BottomNavigation'
@@ -7,6 +8,7 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -81,7 +83,19 @@ export default function AppLayout() {
           <Typography sx={{ display: { xs: 'none', md: 'block' }, color: 'text.secondary' }}>
             {user?.name}
           </Typography>
-          <Button onClick={handleSignOut} color="inherit" sx={{ whiteSpace: 'nowrap' }}>
+          {/* phones get an icon, there is no room for the word */}
+          <IconButton
+            onClick={handleSignOut}
+            aria-label="Sign out"
+            sx={{ display: { xs: 'inline-flex', sm: 'none' } }}
+          >
+            <LogoutOutlined />
+          </IconButton>
+          <Button
+            onClick={handleSignOut}
+            color="inherit"
+            sx={{ display: { xs: 'none', sm: 'inline-flex' }, whiteSpace: 'nowrap' }}
+          >
             Sign out
           </Button>
         </Toolbar>
@@ -110,6 +124,7 @@ export default function AppLayout() {
               value={item.to}
               label={item.label}
               icon={item.icon}
+              sx={{ minWidth: 0, px: 0.5 }}
             />
           ))}
         </BottomNavigation>
