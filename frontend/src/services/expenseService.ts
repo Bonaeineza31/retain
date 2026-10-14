@@ -31,12 +31,26 @@ function getMyExpenses(): Expense[] {
   return getAllExpenses().filter((e) => e.userId === userId)
 }
 
-// how much the signed in user spent in a month (month looks like 2026-10).
-// the real backend returns this together with the budget summary.
+// the helpers below are used by the budget and dashboard services.
+// the real backend does this work inside those endpoints.
+
+// expenses of the signed in user in one month (month looks like 2026-10)
+export function getExpensesForMonth(month: string): Expense[] {
+  return getMyExpenses().filter((e) => e.date.startsWith(month))
+}
+
 export function sumExpensesForMonth(month: string): number {
-  return getMyExpenses()
-    .filter((e) => e.date.startsWith(month))
-    .reduce((total, e) => total + e.amount, 0)
+  return getExpensesForMonth(month).reduce((total, e) => total + e.amount, 0)
+}
+
+// the latest expenses of the signed in user, newest first
+export function getRecentExpenses(limit: number): Expense[] {
+  return [...getMyExpenses()]
+    .sort((a, b) => {
+      if (a.date === b.date) return b.createdAt.localeCompare(a.createdAt)
+      return b.date.localeCompare(a.date)
+    })
+    .slice(0, limit)
 }
 
 function matchesFilters(expense: Expense, filters: ExpenseFiltersState): boolean {
