@@ -1,5 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import AdminLayout from './components/AdminLayout'
 import AppLayout from './components/AppLayout'
+import CategoriesPage from './pages/CategoriesPage'
 import AdminRoute from './routes/AdminRoute'
 import ProtectedRoute from './routes/ProtectedRoute'
 import AdminDashboardPage from './pages/AdminDashboardPage'
@@ -25,7 +27,10 @@ function App() {
             <Route path="/budget" element={<BudgetPage />} />
 
             <Route element={<AdminRoute />}>
-              <Route path="/admin" element={<AdminDashboardPage />} />
+              <Route element={<AdminLayout />}>
+                <Route path="/admin" element={<AdminDashboardPage />} />
+                <Route path="/admin/categories" element={<CategoriesPage />} />
+              </Route>
             </Route>
           </Route>
         </Route>

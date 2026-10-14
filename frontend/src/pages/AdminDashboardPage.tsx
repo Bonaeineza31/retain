@@ -1,17 +1,14 @@
-import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 
-// Temporary content. The admin tools come later.
+// Temporary content. The platform insights come next.
 export default function AdminDashboardPage() {
   return (
-    <Box sx={{ maxWidth: 560 }}>
-      <Typography variant="h3" gutterBottom>
-        Admin
+    <Paper sx={{ p: { xs: 2, sm: 3 }, maxWidth: 720 }}>
+      <Typography variant="h6" gutterBottom>
+        Platform insights
       </Typography>
-      <Paper sx={{ p: { xs: 2, sm: 3 }, borderColor: 'secondary.main' }}>
-        <Typography>Only admins can see this page.</Typography>
-      </Paper>
-    </Box>
+      <Typography sx={{ color: 'text.secondary' }}>Coming soon.</Typography>
+    </Paper>
   )
 }
