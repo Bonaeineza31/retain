@@ -1,22 +1,24 @@
 import { createTheme } from '@mui/material/styles'
 
-const ink = '#1F2A24'
-const paper = '#F6F1E7'
-const surface = '#FFFDF8'
-const line = '#E2DACB'
+// teal and orange are taken from the eNoti app
+const ink = '#3C3C3C'
+const page = '#F2F3F5'
+const surface = '#FFFFFF'
+const line = '#E1E4E6'
 
 // success / warning / error double as the budget states:
 // within budget, approaching budget, over budget
 const theme = createTheme({
   palette: {
     mode: 'light',
-    primary: { main: '#2F5D50', contrastText: surface },
-    secondary: { main: '#C8643C', contrastText: surface },
-    success: { main: '#3F7D58' },
-    warning: { main: '#D99A2B' },
-    error: { main: '#B3412E' },
-    background: { default: paper, paper: surface },
-    text: { primary: ink, secondary: '#5C675F' },
+    primary: { main: '#0D767A', dark: '#0C5858', light: '#EAF4F3', contrastText: '#FFFFFF' },
+    // white text on this orange is too faint, so buttons use dark text
+    secondary: { main: '#E87C34', contrastText: '#2B2B2B' },
+    success: { main: '#2E7D5B', contrastText: '#FFFFFF' },
+    warning: { main: '#E3A21A', contrastText: '#2B2B2B' },
+    error: { main: '#C0392B', contrastText: '#FFFFFF' },
+    background: { default: page, paper: surface },
+    text: { primary: ink, secondary: '#666666' },
     divider: line,
   },
   shape: { borderRadius: 6 },
