@@ -1,4 +1,7 @@
+import DeleteOutlined from '@mui/icons-material/DeleteOutlined'
+import EditOutlined from '@mui/icons-material/EditOutlined'
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -16,14 +19,37 @@ interface Props {
   expenses: Expense[]
   // category id -> category name
   categoryNames: Record<string, string>
+  onEdit: (expense: Expense) => void
+  onDelete: (expense: Expense) => void
 }
 
-export default function ExpenseList({ expenses, categoryNames }: Props) {
+export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete }: Props) {
   const theme = useTheme()
   const isWide = useMediaQuery(theme.breakpoints.up('sm'))
 
   function categoryOf(expense: Expense) {
     return categoryNames[expense.categoryId] || 'Unknown'
+  }
+
+  function actionsFor(expense: Expense) {
+    return (
+      <>
+        <IconButton
+          size="small"
+          aria-label={`Edit ${expense.title}`}
+          onClick={() => onEdit(expense)}
+        >
+          <EditOutlined fontSize="small" />
+        </IconButton>
+        <IconButton
+          size="small"
+          aria-label={`Delete ${expense.title}`}
+          onClick={() => onDelete(expense)}
+        >
+          <DeleteOutlined fontSize="small" />
+        </IconButton>
+      </>
+    )
   }
 
   // phones get cards, a table would be too wide
@@ -46,6 +72,9 @@ export default function ExpenseList({ expenses, categoryNames }: Props) {
                 {expense.notes}
               </Typography>
             )}
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 0.5 }}>
+              {actionsFor(expense)}
+            </Box>
           </Paper>
         ))}
       </Box>
@@ -62,6 +91,7 @@ export default function ExpenseList({ expenses, categoryNames }: Props) {
             <TableCell>Category</TableCell>
             <TableCell>Payment</TableCell>
             <TableCell align="right">Amount</TableCell>
+            <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -80,6 +110,9 @@ export default function ExpenseList({ expenses, categoryNames }: Props) {
               <TableCell sx={{ textTransform: 'capitalize' }}>{expense.paymentMethod}</TableCell>
               <TableCell align="right" sx={{ whiteSpace: 'nowrap', fontWeight: 600 }}>
                 {formatRWF(expense.amount)}
+              </TableCell>
+              <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
+                {actionsFor(expense)}
               </TableCell>
             </TableRow>
           ))}

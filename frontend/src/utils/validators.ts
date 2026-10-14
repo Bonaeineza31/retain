@@ -1,4 +1,5 @@
 import { PAYMENT_METHODS } from '../types/expense'
+import { todayAsText } from './format'
 
 // Every validator returns an error message, or null when the value is fine.
 
@@ -95,13 +96,6 @@ export function validateAmount(value: string): string | null {
   if (!Number.isInteger(amount)) return 'Amount must be a whole number of RWF'
   if (amount > 1_000_000_000) return 'Amount is too large'
   return null
-}
-
-function todayAsText(): string {
-  const now = new Date()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const day = String(now.getDate()).padStart(2, '0')
-  return `${now.getFullYear()}-${month}-${day}`
 }
 
 // expects YYYY-MM-DD, which is what the date input gives us
