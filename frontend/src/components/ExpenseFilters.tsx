@@ -18,6 +18,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import type { Category } from '../types/category'
 import { PAYMENT_METHODS, type PaymentMethod } from '../types/expense'
+import { validateAmountRange, validateDateRange } from '../utils/validators'
 
 interface Props {
   categories: Category[]
@@ -78,6 +79,10 @@ export default function ExpenseFilters({ categories }: Props) {
 
   const sortValue = filters.sortBy + '-' + filters.sortOrder
 
+  // tell the user when a range can never match anything
+  const dateRangeError = validateDateRange(filters.dateFrom, filters.dateTo)
+  const amountRangeError = validateAmountRange(toAmount(minText), toAmount(maxText))
+
   return (
     <Paper sx={{ p: { xs: 1.5, sm: 2 }, mb: 3 }}>
       <Box
@@ -133,6 +138,8 @@ export default function ExpenseFilters({ categories }: Props) {
           type="date"
           value={filters.dateTo}
           onChange={(e) => dispatch(setDateRange({ from: filters.dateFrom, to: e.target.value }))}
+          error={Boolean(dateRangeError)}
+          helperText={dateRangeError}
           slotProps={{ inputLabel: { shrink: true } }}
         />
         <TextField
@@ -147,6 +154,8 @@ export default function ExpenseFilters({ categories }: Props) {
           type="number"
           value={maxText}
           onChange={(e) => setMaxText(e.target.value)}
+          error={Boolean(amountRangeError)}
+          helperText={amountRangeError}
           slotProps={{ htmlInput: { min: 0 } }}
         />
 

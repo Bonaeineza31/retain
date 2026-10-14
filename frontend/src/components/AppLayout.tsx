@@ -16,6 +16,8 @@ import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
 import { Link as RouterLink, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
+import { resetFilters } from '../store/expenseFiltersSlice'
+import { useAppDispatch } from '../store/hooks'
 
 interface NavItem {
   label: string
@@ -28,6 +30,7 @@ export default function AppLayout() {
   const { user, isAdmin, signOut } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
+  const dispatch = useAppDispatch()
 
   // add new pages here and they show up in both menus
   const navItems: NavItem[] = [
@@ -43,7 +46,9 @@ export default function AppLayout() {
   const activeTo = navItems.find((item) => location.pathname.startsWith(item.to))?.to ?? false
 
   // Signs out and goes back to the sign in page.
+  // The filters are cleared too, so the next person does not see them.
   async function handleSignOut() {
+    dispatch(resetFilters())
     await signOut()
     navigate('/signin')
   }

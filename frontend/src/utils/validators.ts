@@ -178,6 +178,18 @@ export function validateCategoryName(
   return null
 }
 
+// Checks the "from" date is not after the "to" date. Empty means no limit.
+export function validateDateRange(from: string, to: string): string | null {
+  if (from && to && from > to) return 'This date is before the start date'
+  return null
+}
+
+// Checks the minimum amount is not above the maximum. null means no limit.
+export function validateAmountRange(min: number | null, max: number | null): string | null {
+  if (min !== null && max !== null && min > max) return 'Max must be at least the min'
+  return null
+}
+
 // Whole-form checks. Each returns only the fields that have an error,
 // so an empty object means the form is valid.
 
