@@ -7,6 +7,7 @@ import ProtectedRoute from './routes/ProtectedRoute'
 import AdminDashboardPage from './pages/AdminDashboardPage'
 import BudgetPage from './pages/BudgetPage'
 import DashboardPage from './pages/DashboardPage'
+import ExpenseDetailPage from './pages/ExpenseDetailPage'
 import ExpensesPage from './pages/ExpensesPage'
 import NotFoundPage from './pages/NotFoundPage'
 import SignInPage from './pages/SignInPage'
@@ -25,6 +26,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/expenses" element={<ExpensesPage />} />
+            <Route path="/expenses/:id" element={<ExpenseDetailPage />} />
             <Route path="/budget" element={<BudgetPage />} />
 
             <Route element={<AdminRoute />}>

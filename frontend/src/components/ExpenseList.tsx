@@ -2,6 +2,7 @@ import DeleteOutlined from '@mui/icons-material/DeleteOutlined'
 import EditOutlined from '@mui/icons-material/EditOutlined'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
+import Link from '@mui/material/Link'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -12,6 +13,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
+import { Link as RouterLink } from 'react-router-dom'
 import type { Expense } from '../types/expense'
 import { formatDate, formatRWF } from '../utils/format'
 
@@ -31,6 +33,21 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
   // The name of the category an expense belongs to.
   function categoryOf(expense: Expense) {
     return categoryNames[expense.categoryId] || 'Unknown'
+  }
+
+  // The title of an expense, as a link to its details page.
+  function titleLink(expense: Expense) {
+    return (
+      <Link
+        component={RouterLink}
+        to={`/expenses/${expense.id}`}
+        color="inherit"
+        underline="hover"
+        sx={{ fontWeight: 600, wordBreak: 'break-word' }}
+      >
+        {expense.title}
+      </Link>
+    )
   }
 
   // The edit and delete buttons of one expense.
@@ -62,7 +79,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
         {expenses.map((expense) => (
           <Paper key={expense.id} sx={{ p: 2 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
-              <Typography sx={{ fontWeight: 600 }}>{expense.title}</Typography>
+              {titleLink(expense)}
               <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
                 {formatRWF(expense.amount)}
               </Typography>
@@ -102,7 +119,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
             <TableRow key={expense.id} hover>
               <TableCell sx={{ whiteSpace: 'nowrap' }}>{formatDate(expense.date)}</TableCell>
               <TableCell>
-                <Typography sx={{ fontWeight: 600 }}>{expense.title}</Typography>
+                {titleLink(expense)}
                 {expense.notes && (
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {expense.notes}
