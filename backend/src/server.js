@@ -23,8 +23,13 @@ app.use((req, res) => {
   sendError(res, "Route not found", "NOT_FOUND", 404);
 });
 
-// connect to the database, add the starting categories, then start the server
+// check the secret, connect to the database, add the starting categories, then start the server
 async function start() {
+  if (!process.env.JWT_SECRET) {
+    console.error("JWT_SECRET is missing. Add it to your .env file.");
+    process.exit(1);
+  }
+
   await connectDB();
   await addStartingCategories();
   app.listen(PORT, () => {
