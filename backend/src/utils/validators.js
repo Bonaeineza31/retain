@@ -150,3 +150,27 @@ export function validateNotes(value) {
   if (value.length > 300) return "Notes must be 300 characters or fewer";
   return null;
 }
+
+// checks the month is written like 2026-10, with a month from 01 to 12
+export function validateBudgetMonth(value) {
+  if (typeof value !== "string" || !value) return "Month is required";
+  if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(value)) {
+    return "Month must be written like 2026-10";
+  }
+  return null;
+}
+
+// checks the budget is a whole number of RWF above zero
+export function validateBudgetAmount(value) {
+  if (typeof value !== "number" && typeof value !== "string") {
+    return "Budget amount is required";
+  }
+  if (String(value).trim() === "") return "Budget amount is required";
+
+  const amount = Number(value);
+  if (Number.isNaN(amount)) return "Budget must be a number";
+  if (amount <= 0) return "Budget must be greater than 0";
+  if (!Number.isInteger(amount)) return "Budget must be a whole number of RWF";
+  if (amount > 1000000000) return "Budget is too large";
+  return null;
+}

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import authRoutes from "./authRoutes.js";
+import budgetRoutes from "./budgetRoutes.js";
 import categoryRoutes from "./categoryRoutes.js";
 import expenseRoutes from "./expenseRoutes.js";
 
@@ -7,6 +8,7 @@ import expenseRoutes from "./expenseRoutes.js";
 const router = Router();
 
 router.use("/auth", authRoutes);
+router.use("/budgets", budgetRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/expenses", expenseRoutes);
 
