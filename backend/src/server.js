@@ -13,8 +13,11 @@ import { addStartingCategories } from "./utils/seedCategories.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// only the frontend may call this API
-app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:5173" }));
+// only the frontends in FRONTEND_URL may call this API. there can be several, separated by commas
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
+  .split(",")
+  .map((url) => url.trim().replace(/\/$/, ""));
+app.use(cors({ origin: allowedOrigins }));
 
 // lets us read the JSON that is sent to us
 app.use(express.json());
