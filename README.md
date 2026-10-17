@@ -74,9 +74,20 @@ For now the app runs on sample data saved in the browser, so no backend is neede
 
 ### Backend
 
-_Coming with the backend._
+You need Node.js 20 or newer and a MongoDB database (a free MongoDB Atlas cluster works).
+
+```
+cd backend
+npm install
+```
+
+Copy `.env.example` to `.env` and fill in `MONGODB_URI` and `JWT_SECRET`. Then run `npm run dev`.
+
+New accounts are always normal users. To make an admin, change a user's `role` to `admin` in the `users` collection in MongoDB.
 
 ## API
 
-_Endpoint documentation will be added with the backend._
+The API is documented with Swagger. With the backend running, open http://localhost:3000/api/docs. It lists every endpoint and lets you try them.
+
+Protected routes need the header `Authorization: Bearer <token>`, with the token from login.
 
