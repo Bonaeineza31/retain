@@ -3,6 +3,7 @@ import cors from 'cors'
 import express from 'express'
 import mongoose from 'mongoose'
 import { connectDB } from './config/db.js'
+import Category from './models/Category.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -27,6 +28,7 @@ app.use((req, res) => {
 // connect to the database first, then start listening
 async function start() {
   await connectDB()
+  await Category.ensureDefault()
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
   })
