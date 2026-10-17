@@ -1,8 +1,16 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
+const { model, Schema } = mongoose;
+
+const userSchema = new Schema(
   {
-    name: { type: String, required: true, trim: true, minlength: 2, maxlength: 50 },
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 2,
+      maxlength: 50,
+    },
     email: {
       type: String,
       required: true,
@@ -11,22 +19,26 @@ const userSchema = new mongoose.Schema(
       trim: true,
       match: /^\S+@\S+\.\S+$/,
     },
-    // stores the hashed password, never the real one. hidden from queries by default
-    password: { type: String, required: true, select: false },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' },
-  },
-  {
-    // adds createdAt and updatedAt
-    timestamps: true,
-    toJSON: {
-      // never send the password hash or the internal version field
-      transform(doc, ret) {
-        delete ret.__v
-        delete ret.password
-        return ret
-      },
+    // saved scrambled (hashed), never as typed. left out when we look up a user
+    password: {
+      type: String,
+      required: true,
+      select: false,
+    },
+    role: {
+      type: String,
+      required: false,
+      default: "user",
+      enum: ["user", "admin"],
     },
   },
-)
+  {
+    // saves when the user was created and last changed. no extra __v field
+    timestamps: true,
+    versionKey: false,
+  },
+);
 
-export default mongoose.model('User', userSchema)
+// Export the model
+const User = model("User", userSchema);
+export default User;

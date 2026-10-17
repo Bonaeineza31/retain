@@ -1,20 +1,20 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-// connect to MongoDB, or stop with a clear message
+// connects to MongoDB, or stops and says what is wrong
 export async function connectDB() {
-  const uri = process.env.MONGODB_URI
+  const uri = process.env.MONGODB_URI;
 
   if (!uri) {
-    console.error('MONGODB_URI is missing. Add it to your .env file.')
-    process.exit(1)
+    console.error("MONGODB_URI is missing. Add it to your .env file.");
+    process.exit(1);
   }
 
   try {
-    // give up after 10 seconds instead of the default 30
-    await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 })
-    console.log('Connected to MongoDB')
+    // stop trying after 10 seconds (the normal wait is 30)
+    await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
+    console.log("Connected to MongoDB");
   } catch (error) {
-    console.error('Could not connect to MongoDB:', error.message)
-    process.exit(1)
+    console.error("Could not connect to MongoDB:", error.message);
+    process.exit(1);
   }
 }
