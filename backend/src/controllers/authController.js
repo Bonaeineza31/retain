@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
-import { publicUser } from "../utils/publicUser.js";
 import { sendError, sendSuccess } from "../utils/responseHandler.js";
 import {
   validateEmail,
@@ -56,7 +55,9 @@ export async function register(req, res) {
       role: "user",
     });
 
-    const safeUser = publicUser(user);
+    // copy the user without the password
+    const safeUser = user.toObject();
+    delete safeUser.password;
 
     // for testing only: shows the scrambled password when this is set in .env
     if (process.env.SHOW_HASH_IN_RESPONSE === "true") {
@@ -113,9 +114,13 @@ export async function login(req, res) {
       return sendError(res, wrongMessage, "INVALID_CREDENTIALS", 401);
     }
 
+    // copy the user without the password
+    const safeUser = user.toObject();
+    delete safeUser.password;
+
     sendSuccess(
       res,
-      { user: publicUser(user), token: generateToken(user) },
+      { user: safeUser, token: generateToken(user) },
       "Signed in",
     );
   } catch (error) {
@@ -126,5 +131,5 @@ export async function login(req, res) {
 
 // tells the frontend who is signed in. protect has already found the user
 export function me(req, res) {
-  sendSuccess(res, publicUser(req.user), "Current user");
+  sendSuccess(res, req.user, "Current user");
 }
