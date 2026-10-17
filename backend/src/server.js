@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import { connectDB } from "./config/db.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 import mainRouter from "./routes/index.js";
 import { sendError, sendSuccess } from "./utils/responseHandler.js";
 import { addStartingCategories } from "./utils/seedCategories.js";
@@ -33,6 +34,9 @@ app.use("/api", mainRouter);
 app.use((req, res) => {
   sendError(res, "Route not found", "NOT_FOUND", 404);
 });
+
+// catches any error left over. it must stay the last one
+app.use(errorHandler);
 
 // check the secret, connect to the database, add the starting categories, then start the server
 async function start() {
