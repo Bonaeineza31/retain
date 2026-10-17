@@ -1,10 +1,10 @@
 import { createTheme } from '@mui/material/styles'
 
-// blueberry and cream soda: a cream page, lighter cream cards, and deep blue for everything you press
+// blueberry on a cool "cloud" page: a very light blue-white page, white cards, and deep blue for everything you press
 const ink = '#1A1F3D'
-const page = '#FCF0C9'
-const surface = '#FFFAEB'
-const line = '#E3D29B'
+const page = '#F4F5FB'
+const surface = '#FFFFFF'
+const line = '#DDE1F0'
 
 // success / warning / error double as the budget states:
 // within budget, approaching budget, over budget

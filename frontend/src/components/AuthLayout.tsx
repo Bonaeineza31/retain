@@ -32,8 +32,7 @@ const play = (name: ReturnType<typeof keyframes>, delay: number) => ({
 // The logo, the name and a card, around the sign in and sign up forms.
 export default function AuthLayout({ title, subtitle, children }: Props) {
   return (
-    // the content sits in the middle of the screen, a little above the exact middle.
-    // dvh is the height you really see on a phone, with the address bar counted
+
     <Box
       sx={{
         display: 'flex',
