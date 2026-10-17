@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { publicUser } from "../utils/publicUser.js";
+import { sendError, sendSuccess } from "../utils/responseHandler.js";
 import {
   validateEmail,
   validateName,
@@ -21,7 +22,13 @@ export async function register(req, res) {
   if (passwordError) errors.password = passwordError;
 
   if (Object.keys(errors).length > 0) {
-    return res.status(400).json({ message: "Please fix the errors", errors });
+    return sendError(
+      res,
+      "Please fix the errors",
+      "VALIDATION_ERROR",
+      400,
+      errors,
+    );
   }
 
   try {
@@ -29,9 +36,12 @@ export async function register(req, res) {
 
     const existing = await User.findOne({ email: cleanEmail });
     if (existing) {
-      return res
-        .status(409)
-        .json({ message: "An account with this email already exists" });
+      return sendError(
+        res,
+        "An account with this email already exists",
+        "EMAIL_TAKEN",
+        409,
+      );
     }
 
     // scramble the password. 10 is how much work the scrambling does
@@ -52,9 +62,9 @@ export async function register(req, res) {
       result.passwordHash = hashedPassword;
     }
 
-    res.status(201).json(result);
+    sendSuccess(res, result, "Account created", 201);
   } catch (error) {
     console.error("Register failed:", error.message);
-    res.status(500).json({ message: "Something went wrong" });
+    sendError(res, "Something went wrong", "SERVER_ERROR", 500);
   }
 }
