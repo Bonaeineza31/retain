@@ -7,14 +7,9 @@ interface AuthResult {
   token: string
 }
 
-// Creates a new account and signs it in.
-export async function signUp(input: SignUpInput): Promise<User> {
-  const result = await request<AuthResult>('/api/auth/register', {
-    method: 'POST',
-    body: input,
-  })
-  saveToken(result.token)
-  return result.user
+// Creates a new account. The person is not signed in yet, they sign in next.
+export async function signUp(input: SignUpInput): Promise<void> {
+  await request('/api/auth/register', { method: 'POST', body: input })
 }
 
 // Checks the email and password, then signs the person in.

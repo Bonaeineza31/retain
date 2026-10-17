@@ -32,8 +32,20 @@ const play = (name: ReturnType<typeof keyframes>, delay: number) => ({
 // The logo, the name and a card, around the sign in and sign up forms.
 export default function AuthLayout({ title, subtitle, children }: Props) {
   return (
-    // the page starts near the top, so the card is not pushed down the screen
-    <Box sx={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', px: 2, pt: { xs: 3, sm: 6 }, pb: 3 }}>
+    // the content sits in the middle of the screen, a little above the exact middle.
+    // dvh is the height you really see on a phone, with the address bar counted
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        '@supports (min-height: 100dvh)': { minHeight: '100dvh' },
+        px: 2,
+        pt: 3,
+        pb: { xs: 8, sm: 12 },
+      }}
+    >
       <Box sx={{ width: '100%', maxWidth: 420 }}>
         <Box sx={{ textAlign: 'center', mb: 2 }}>
           <Box

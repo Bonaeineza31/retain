@@ -60,7 +60,8 @@ export default function SignUpPage() {
         email: values.email,
         password: values.password,
       })
-      navigate('/dashboard', { replace: true })
+      // go to the sign in page, and take the email along so they do not type it again
+      navigate('/signin', { replace: true, state: { registeredEmail: values.email.trim() } })
     } catch (error) {
       setServerError(getErrorMessage(error))
       setSubmitting(false)
@@ -121,7 +122,7 @@ export default function SignUpPage() {
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             Already have an account?{' '}
-            <Link component={RouterLink} to="/signin">
+            <Link component={RouterLink} to="/signin" sx={{ py: 0.75 }}>
               Sign in
             </Link>
           </Typography>

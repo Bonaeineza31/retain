@@ -1,3 +1,4 @@
+import FilterListOutlined from '@mui/icons-material/FilterListOutlined'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
@@ -48,6 +49,8 @@ export default function ExpenseFilters({ categories }: Props) {
   const [searchText, setSearchText] = useState(filters.search)
   const [minText, setMinText] = useState(filters.minAmount?.toString() ?? '')
   const [maxText, setMaxText] = useState(filters.maxAmount?.toString() ?? '')
+  // on a phone: are the filters open?
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -79,6 +82,16 @@ export default function ExpenseFilters({ categories }: Props) {
 
   const sortValue = filters.sortBy + '-' + filters.sortOrder
 
+  // how many of the hidden filters are in use, shown on the Filters button
+  const activeCount = [
+    filters.categoryId,
+    filters.paymentMethod,
+    filters.dateFrom,
+    filters.dateTo,
+    filters.minAmount,
+    filters.maxAmount,
+  ].filter((value) => value !== '' && value !== null).length
+
   // tell the user when a range can never match anything
   const dateRangeError = validateDateRange(filters.dateFrom, filters.dateTo)
   const amountRangeError = validateAmountRange(toAmount(minText), toAmount(maxText))
@@ -99,65 +112,81 @@ export default function ExpenseFilters({ categories }: Props) {
           onChange={(e) => setSearchText(e.target.value)}
           sx={{ gridColumn: { md: 'span 2' } }}
         />
-        <TextField
-          select
-          label="Category"
-          value={filters.categoryId}
-          onChange={(e) => dispatch(setCategory(e.target.value))}
-        >
-          <MenuItem value="">All categories</MenuItem>
-          {categories.map((c) => (
-            <MenuItem key={c._id} value={c._id}>
-              {c.name}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          select
-          label="Payment"
-          value={filters.paymentMethod}
-          onChange={(e) => dispatch(setPaymentMethod(e.target.value as PaymentMethod | ''))}
-        >
-          <MenuItem value="">All methods</MenuItem>
-          {PAYMENT_METHODS.map((method) => (
-            <MenuItem key={method} value={method} sx={{ textTransform: 'capitalize' }}>
-              {method}
-            </MenuItem>
-          ))}
-        </TextField>
 
-        <TextField
-          label="From"
-          type="date"
-          value={filters.dateFrom}
-          onChange={(e) => dispatch(setDateRange({ from: e.target.value, to: filters.dateTo }))}
-          slotProps={{ inputLabel: { shrink: true } }}
-        />
-        <TextField
-          label="To"
-          type="date"
-          value={filters.dateTo}
-          onChange={(e) => dispatch(setDateRange({ from: filters.dateFrom, to: e.target.value }))}
-          error={Boolean(dateRangeError)}
-          helperText={dateRangeError}
-          slotProps={{ inputLabel: { shrink: true } }}
-        />
-        <TextField
-          label="Min (RWF)"
-          type="number"
-          value={minText}
-          onChange={(e) => setMinText(e.target.value)}
-          slotProps={{ htmlInput: { min: 0 } }}
-        />
-        <TextField
-          label="Max (RWF)"
-          type="number"
-          value={maxText}
-          onChange={(e) => setMaxText(e.target.value)}
-          error={Boolean(amountRangeError)}
-          helperText={amountRangeError}
-          slotProps={{ htmlInput: { min: 0 } }}
-        />
+        {/* on a phone the filters are hidden until this button is pressed, so the expenses stay in view */}
+        <Button
+          variant="outlined"
+          startIcon={<FilterListOutlined />}
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          aria-controls="more-filters"
+          sx={{ display: { xs: 'inline-flex', sm: 'none' } }}
+        >
+          {activeCount > 0 ? `Filters (${activeCount})` : 'Filters'}
+        </Button>
+
+        {/* "contents" lets these fields sit in the grid as if the box was not there */}
+        <Box id="more-filters" sx={{ display: { xs: open ? 'contents' : 'none', sm: 'contents' } }}>
+          <TextField
+            select
+            label="Category"
+            value={filters.categoryId}
+            onChange={(e) => dispatch(setCategory(e.target.value))}
+          >
+            <MenuItem value="">All categories</MenuItem>
+            {categories.map((c) => (
+              <MenuItem key={c._id} value={c._id}>
+                {c.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            label="Payment"
+            value={filters.paymentMethod}
+            onChange={(e) => dispatch(setPaymentMethod(e.target.value as PaymentMethod | ''))}
+          >
+            <MenuItem value="">All methods</MenuItem>
+            {PAYMENT_METHODS.map((method) => (
+              <MenuItem key={method} value={method} sx={{ textTransform: 'capitalize' }}>
+                {method}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            label="From"
+            type="date"
+            value={filters.dateFrom}
+            onChange={(e) => dispatch(setDateRange({ from: e.target.value, to: filters.dateTo }))}
+            slotProps={{ inputLabel: { shrink: true } }}
+          />
+          <TextField
+            label="To"
+            type="date"
+            value={filters.dateTo}
+            onChange={(e) => dispatch(setDateRange({ from: filters.dateFrom, to: e.target.value }))}
+            error={Boolean(dateRangeError)}
+            helperText={dateRangeError}
+            slotProps={{ inputLabel: { shrink: true } }}
+          />
+          <TextField
+            label="Min (RWF)"
+            type="number"
+            value={minText}
+            onChange={(e) => setMinText(e.target.value)}
+            slotProps={{ htmlInput: { min: 0 } }}
+          />
+          <TextField
+            label="Max (RWF)"
+            type="number"
+            value={maxText}
+            onChange={(e) => setMaxText(e.target.value)}
+            error={Boolean(amountRangeError)}
+            helperText={amountRangeError}
+            slotProps={{ htmlInput: { min: 0 } }}
+          />
+        </Box>
 
         <TextField
           select

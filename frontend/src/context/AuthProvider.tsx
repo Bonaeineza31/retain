@@ -28,10 +28,9 @@ export default function AuthProvider({ children }: Props) {
     setUser(signedIn)
   }
 
-  // Creates the account and signs the person in.
+  // Creates the account. The person signs in on the next page.
   async function signUp(input: SignUpInput) {
-    const created = await authService.signUp(input)
-    setUser(created)
+    await authService.signUp(input)
   }
 
   // Signs the person out and forgets them.

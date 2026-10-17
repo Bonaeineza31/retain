@@ -22,7 +22,10 @@ export default function SignInPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [values, setValues] = useState<SignInFormValues>({ email: '', password: '' })
+  // after sign up we arrive here with the email that was just used
+  const registeredEmail: string = location.state?.registeredEmail ?? ''
+
+  const [values, setValues] = useState<SignInFormValues>({ email: registeredEmail, password: '' })
   const [errors, setErrors] = useState<FormErrors<SignInFormValues>>({})
   const [serverError, setServerError] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -67,6 +70,9 @@ export default function SignInPage() {
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           {serverError && <Alert severity="error">{serverError}</Alert>}
+          {registeredEmail && !serverError && (
+            <Alert severity="success">Account created. Please sign in.</Alert>
+          )}
 
           <TextField
             label="Email"
@@ -96,7 +102,7 @@ export default function SignInPage() {
 
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             New to Retain?{' '}
-            <Link component={RouterLink} to="/signup">
+            <Link component={RouterLink} to="/signup" sx={{ py: 0.75 }}>
               Create an account
             </Link>
           </Typography>
