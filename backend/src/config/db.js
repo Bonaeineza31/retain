@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// connects to MongoDB, or stops and says what is wrong
+// connects to MongoDB
 export async function connectDB() {
   const uri = process.env.MONGODB_URI;
 
