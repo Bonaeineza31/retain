@@ -3,7 +3,8 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import { connectDB } from "./config/db.js";
-import { addStartingCategories } from "./utils/startingCategories.js";
+import mainRouter from "./routes/index.js";
+import { addStartingCategories } from "./utils/seedCategories.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,6 +23,9 @@ app.get("/api/health", (req, res) => {
     database: connected ? "connected" : "disconnected",
   });
 });
+
+// all the API routes
+app.use("/api", mainRouter);
 
 // nothing matched this address
 app.use((req, res) => {
