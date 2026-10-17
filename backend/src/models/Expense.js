@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 const { model, Schema } = mongoose;
 
+// the ways to pay. the checks in utils/validators.js use this list too
+export const paymentMethods = ["cash", "mobile money", "card", "bank transfer"];
+
 const expenseSchema = new Schema(
   {
     // the person who owns this expense
@@ -41,7 +44,7 @@ const expenseSchema = new Schema(
     paymentMethod: {
       type: String,
       required: true,
-      enum: ["cash", "mobile money", "card", "bank transfer"],
+      enum: paymentMethods,
     },
     notes: {
       type: String,
