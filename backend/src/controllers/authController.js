@@ -123,3 +123,8 @@ export async function login(req, res) {
     sendError(res, "Something went wrong", "SERVER_ERROR", 500);
   }
 }
+
+// tells the frontend who is signed in. protect has already found the user
+export function me(req, res) {
+  sendSuccess(res, publicUser(req.user), "Current user");
+}
