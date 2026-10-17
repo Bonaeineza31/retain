@@ -1,5 +1,5 @@
 import Budget from "../models/Budget.js";
-import { getBudgetStatus, getSpentInMonth } from "../utils/budgetHelpers.js";
+import { buildBudgetSummary } from "../utils/budgetHelpers.js";
 import { sendError, sendSuccess } from "../utils/responseHandler.js";
 import {
   validateBudgetAmount,
@@ -18,28 +18,8 @@ export async function getBudgetSummary(req, res) {
   }
 
   try {
-    const budget = await Budget.findOne({ userId: req.user._id, month });
-    const spent = await getSpentInMonth(req.user._id, month);
-
-    // no budget set yet for this month
-    if (!budget) {
-      return sendSuccess(
-        res,
-        { budget: null, spent, remaining: 0, status: "within" },
-        "Budget summary loaded",
-      );
-    }
-
-    sendSuccess(
-      res,
-      {
-        budget,
-        spent,
-        remaining: budget.amount - spent,
-        status: getBudgetStatus(spent, budget.amount),
-      },
-      "Budget summary loaded",
-    );
+    const summary = await buildBudgetSummary(req.user._id, month);
+    sendSuccess(res, summary, "Budget summary loaded");
   } catch (error) {
     console.error("Loading the budget summary failed:", error.message);
     sendError(res, "Something went wrong", "SERVER_ERROR", 500);
