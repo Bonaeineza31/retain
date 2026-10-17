@@ -69,3 +69,13 @@ export function validateName(value) {
   }
   return null;
 }
+
+// checks the category name is not empty and not too short or long
+export function validateCategoryName(value) {
+  const name = String(value || "").trim();
+
+  if (!name) return "Category name is required";
+  if (name.length < 2) return "Category name must be at least 2 characters";
+  if (name.length > 30) return "Category name must be 30 characters or fewer";
+  return null;
+}
