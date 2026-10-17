@@ -78,7 +78,7 @@ export default function ExpensesPage() {
   const categoryNames = useMemo(() => {
     const names: Record<string, string> = {}
     categories.forEach((c) => {
-      names[c.id] = c.name
+      names[c._id] = c.name
     })
     return names
   }, [categories])
@@ -109,7 +109,7 @@ export default function ExpensesPage() {
     if (!deleting) return
     setDeleteBusy(true)
     try {
-      await deleteExpense(deleting.id)
+      await deleteExpense(deleting._id)
       setMessage('Expense deleted')
       setReloadCount(reloadCount + 1)
     } catch (err) {

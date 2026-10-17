@@ -73,7 +73,7 @@ export default function CategoriesPage() {
     if (!deleting) return
     setDeleteBusy(true)
     try {
-      await deleteCategory(deleting.id)
+      await deleteCategory(deleting._id)
       setMessage('Category deleted')
       setReloadCount(reloadCount + 1)
     } catch (err) {
@@ -115,7 +115,7 @@ export default function CategoriesPage() {
       ) : (
         <Paper>
           {categories.map((category, index) => (
-            <Box key={category.id}>
+            <Box key={category._id}>
               {index > 0 && <Divider />}
               <Box
                 sx={{

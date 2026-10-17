@@ -10,7 +10,7 @@ export type PaymentMethod = (typeof PAYMENT_METHODS)[number]
 
 // One thing the user spent money on.
 export interface Expense {
-  id: string
+  _id: string
   userId: string
   title: string
   // in RWF
@@ -24,7 +24,7 @@ export interface Expense {
 }
 
 // What the expense form sends: everything except what the system fills in.
-export type ExpenseInput = Omit<Expense, 'id' | 'userId' | 'createdAt'>
+export type ExpenseInput = Omit<Expense, '_id' | 'userId' | 'createdAt'>
 
 // one page of expenses, plus how many match in total
 export interface ExpenseList {

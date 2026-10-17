@@ -94,7 +94,7 @@ export default function AdminDashboardPage() {
             <Typography sx={{ color: 'text.secondary' }}>Nothing recorded yet.</Typography>
           )}
           {insights.recentExpenses.map((expense, index) => (
-            <Box key={expense.id}>
+            <Box key={expense._id}>
               {index > 0 && <Divider />}
               <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 1.25 }}>
                 <Box sx={{ minWidth: 0 }}>
@@ -121,7 +121,7 @@ export default function AdminDashboardPage() {
             <Typography sx={{ color: 'text.secondary' }}>No users yet.</Typography>
           )}
           {insights.recentUsers.map((person, index) => (
-            <Box key={person.id}>
+            <Box key={person._id}>
               {index > 0 && <Divider />}
               <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 1.25 }}>
                 <Box sx={{ minWidth: 0 }}>

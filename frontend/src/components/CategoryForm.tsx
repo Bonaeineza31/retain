@@ -42,7 +42,7 @@ export default function CategoryForm({ category, existingNames, onClose, onSaved
     setSubmitting(true)
     try {
       if (category) {
-        await updateCategory(category.id, { name })
+        await updateCategory(category._id, { name })
         onSaved('Category renamed')
       } else {
         await createCategory({ name })

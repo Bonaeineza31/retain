@@ -3,7 +3,7 @@ export type BudgetStatus = 'within' | 'approaching' | 'over'
 
 // The amount a user plans to spend in one month.
 export interface Budget {
-  id: string
+  _id: string
   userId: string
   // YYYY-MM
   month: string

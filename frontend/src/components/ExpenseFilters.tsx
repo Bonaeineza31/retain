@@ -107,7 +107,7 @@ export default function ExpenseFilters({ categories }: Props) {
         >
           <MenuItem value="">All categories</MenuItem>
           {categories.map((c) => (
-            <MenuItem key={c.id} value={c.id}>
+            <MenuItem key={c._id} value={c._id}>
               {c.name}
             </MenuItem>
           ))}

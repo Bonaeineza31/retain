@@ -59,7 +59,7 @@ export default function DashboardPage() {
   const categoryNames = useMemo(() => {
     const names: Record<string, string> = {}
     categories.forEach((c) => {
-      names[c.id] = c.name
+      names[c._id] = c.name
     })
     return names
   }, [categories])

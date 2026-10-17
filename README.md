@@ -6,7 +6,7 @@ A personal expense and budget manager. Record what you spend, set a monthly budg
 
 **Live API:** https://retain-m7f1.onrender.com (documentation: https://retain-m7f1.onrender.com/api/docs/)
 
-The API runs on a free server that goes to sleep when nobody uses it, so the first request can take up to a minute.
+
 
 ## Features
 
@@ -58,22 +58,13 @@ You need Node.js 20 or newer.
 ```
 cd frontend
 npm install
-npm run dev
 ```
 
-Then open the address the terminal prints (usually http://localhost:5173).
+Copy `.env.example` to `.env`. It holds `VITE_BACKEND_URL`, the address of the backend. Use the live one, or `http://localhost:3000` if you run the backend yourself. Then run `npm run dev` and open the address the terminal prints (usually http://localhost:5173).
 
 Other commands: `npm run build` makes a production build, and `npm run lint` checks the code.
 
-For now the app runs on sample data saved in the browser, so no backend is needed. To start again from the sample data, clear the site data for the page in your browser.
-
-### Demo accounts
-
-| Role | Email | Password |
-| --- | --- | --- |
-| User | aline@retain.rw | password123 |
-| User | eric@retain.rw | password123 |
-| Admin | admin@retain.rw | admin123 |
+Create an account on the sign up page to start. All the data comes from the backend.
 
 ### Backend
 

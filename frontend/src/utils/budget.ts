@@ -1,15 +1,6 @@
 import type { BudgetStatus } from '../types/budget'
 
-// "approaching" starts once 80% of the budget is spent
-export const APPROACHING_AT = 0.8
-
-// Decides within, approaching or over, from what was spent and the budget.
-export function getBudgetStatus(spent: number, budgetAmount: number): BudgetStatus {
-  if (spent > budgetAmount) return 'over'
-  if (spent >= budgetAmount * APPROACHING_AT) return 'approaching'
-  return 'within'
-}
-
+// the backend decides the status. here we only say how to show it
 export const STATUS_LABEL: Record<BudgetStatus, string> = {
   within: 'Within budget',
   approaching: 'Approaching budget',

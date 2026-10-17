@@ -42,7 +42,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
 
   // Goes to the details page of an expense.
   function openDetails(expense: Expense) {
-    navigate(`/expenses/${expense.id}`)
+    navigate(`/expenses/${expense._id}`)
   }
 
   // Stops a click on a button from also counting as a click on the card or row.
@@ -55,7 +55,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
     return (
       <Link
         component={RouterLink}
-        to={`/expenses/${expense.id}`}
+        to={`/expenses/${expense._id}`}
         onClick={keepClick}
         color="inherit"
         underline="hover"
@@ -100,7 +100,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
       <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 1.5 }}>
         {expenses.map((expense) => (
           <Paper
-            key={expense.id}
+            key={expense._id}
             onClick={() => openDetails(expense)}
             sx={{ p: 2, cursor: 'pointer', '&:hover': { borderColor: 'primary.main' } }}
           >
@@ -129,7 +129,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
               <Button
                 size="small"
                 component={RouterLink}
-                to={`/expenses/${expense.id}`}
+                to={`/expenses/${expense._id}`}
                 onClick={keepClick}
                 sx={{ ml: -1 }}
               >
@@ -159,7 +159,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
         <TableBody>
           {expenses.map((expense) => (
             <TableRow
-              key={expense.id}
+              key={expense._id}
               hover
               onClick={() => openDetails(expense)}
               sx={{ cursor: 'pointer' }}
@@ -182,7 +182,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
                 <IconButton
                   size="small"
                   component={RouterLink}
-                  to={`/expenses/${expense.id}`}
+                  to={`/expenses/${expense._id}`}
                   onClick={keepClick}
                   aria-label={`View details of ${expense.title}`}
                 >

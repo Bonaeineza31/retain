@@ -66,7 +66,7 @@ export default function ExpenseDetailPage() {
 
   // the name of the expense's category
   const categoryName =
-    categories.find((c) => c.id === expense?.categoryId)?.name ?? 'Unknown'
+    categories.find((c) => c._id === expense?.categoryId)?.name ?? 'Unknown'
 
   // Closes the form, shows a message and loads the expense again.
   function handleSaved(text: string) {
@@ -80,7 +80,7 @@ export default function ExpenseDetailPage() {
     if (!expense) return
     setDeleteBusy(true)
     try {
-      await deleteExpense(expense.id)
+      await deleteExpense(expense._id)
       navigate('/expenses', { replace: true })
     } catch (err) {
       setError(getErrorMessage(err))

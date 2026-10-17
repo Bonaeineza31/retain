@@ -26,7 +26,7 @@ export default function RecentExpenses({ expenses, categoryNames }: Props) {
       ) : (
         <Box>
           {expenses.map((expense, index) => (
-            <Box key={expense.id}>
+            <Box key={expense._id}>
               {index > 0 && <Divider />}
               <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 1.5 }}>
                 <Box sx={{ minWidth: 0 }}>

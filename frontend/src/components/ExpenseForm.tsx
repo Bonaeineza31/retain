@@ -76,7 +76,7 @@ export default function ExpenseForm({ categories, expense, onClose, onSaved }: P
     setSubmitting(true)
     try {
       if (expense) {
-        await updateExpense(expense.id, input)
+        await updateExpense(expense._id, input)
         onSaved('Expense updated')
       } else {
         await createExpense(input)
@@ -133,7 +133,7 @@ export default function ExpenseForm({ categories, expense, onClose, onSaved }: P
               fullWidth
             >
               {categories.map((c) => (
-                <MenuItem key={c.id} value={c.id}>
+                <MenuItem key={c._id} value={c._id}>
                   {c.name}
                 </MenuItem>
               ))}

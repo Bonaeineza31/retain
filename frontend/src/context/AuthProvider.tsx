@@ -12,12 +12,14 @@ export default function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // when the app opens, restore the session if there is one
+  // when the app opens, ask the backend who is signed in, if anyone
   useEffect(() => {
-    authService.getCurrentUser().then((current) => {
-      setUser(current)
-      setLoading(false)
-    })
+    authService
+      .getCurrentUser()
+      .then(setUser)
+      // if the backend cannot be reached, show the sign in page instead of loading forever
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false))
   }, [])
 
   // Signs the person in and remembers them.

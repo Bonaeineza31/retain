@@ -3,7 +3,7 @@ export type UserRole = 'user' | 'admin'
 
 // A person with an account. It never includes the password.
 export interface User {
-  id: string
+  _id: string
   name: string
   email: string
   role: UserRole

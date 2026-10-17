@@ -1,6 +1,6 @@
 // A group for expenses, like Food or Transport.
 export interface Category {
-  id: string
+  _id: string
   name: string
   // the fallback category (Uncategorized): it cannot be renamed or deleted
   isDefault: boolean
