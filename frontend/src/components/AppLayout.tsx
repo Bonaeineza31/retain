@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography'
 import type { ReactNode } from 'react'
 import { Link as RouterLink, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
+import Logo from './Logo'
 import { resetFilters } from '../store/expenseFiltersSlice'
 import { useAppDispatch } from '../store/hooks'
 
@@ -66,7 +67,7 @@ export default function AppLayout() {
             to="/dashboard"
             sx={{ display: 'flex', alignItems: 'center', gap: 1, textDecoration: 'none' }}
           >
-            <Box component="img" src="/logo.svg" alt="" sx={{ width: 32, height: 32 }} />
+            <Logo size={32} />
             <Typography variant="h6" sx={{ color: 'primary.dark' }}>
               Retain
             </Typography>
