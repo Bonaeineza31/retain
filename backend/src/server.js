@@ -2,7 +2,9 @@ import "dotenv/config";
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
+import swaggerUi from "swagger-ui-express";
 import { connectDB } from "./config/db.js";
+import { swaggerSpec } from "./docs/swagger.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import mainRouter from "./routes/index.js";
 import { sendError, sendSuccess } from "./utils/responseHandler.js";
@@ -26,6 +28,12 @@ app.get("/api/health", (req, res) => {
     "Server is running",
   );
 });
+
+// the API documentation page, and the same documentation as plain JSON
+app.get("/api/docs.json", (req, res) => {
+  res.json(swaggerSpec);
+});
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // all the API routes live in one main router
 app.use("/api", mainRouter);
