@@ -77,7 +77,6 @@ export default function BudgetPage() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-      {/* Header Banner */}
       <Paper
         sx={{
           p: { xs: 2, sm: 2.5 },
@@ -144,7 +143,6 @@ export default function BudgetPage() {
             alignItems: 'start',
           }}
         >
-          {/* Left Column: Summary Card + Pace Info */}
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <BudgetSummaryCard month={month} summary={loaded.summary} />
 
@@ -168,7 +166,6 @@ export default function BudgetPage() {
             )}
           </Box>
 
-          {/* Right Column: Goal Setting Form */}
           <Box>
             <BudgetForm
               key={month + '-' + (loaded.summary.budget?.amount ?? 'none')}

@@ -55,7 +55,6 @@ export default function AuthLayout({ title, subtitle, children }: Props) {
           alignItems: 'center',
         }}
       >
-        {/* Left Side: Brand Narrative */}
         <Box sx={{ ...play(rise, 100), textAlign: { xs: 'center', md: 'left' } }}>
           <Box
             sx={{
@@ -83,7 +82,6 @@ export default function AuthLayout({ title, subtitle, children }: Props) {
           </Typography>
         </Box>
 
-        {/* Right Side: Form Paper */}
         <Paper sx={{ p: { xs: 3, sm: 4 }, ...play(rise, 300) }}>
           <Typography variant="h4" gutterBottom>
             {title}

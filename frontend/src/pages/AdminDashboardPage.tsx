@@ -50,7 +50,6 @@ export default function AdminDashboardPage() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-      {/* 4 Stat Metric Tiles (No icons, borderLeft accent, exact initial colors) */}
       <Box
         sx={{
           display: 'grid',
@@ -80,10 +79,8 @@ export default function AdminDashboardPage() {
         />
       </Box>
 
-      {/* Category chart */}
       <CategoryBreakdown items={chart.items} categoryNames={chart.names} />
 
-      {/* Top and Bottom Categories */}
       <Box
         sx={{
           display: 'grid',
@@ -96,7 +93,6 @@ export default function AdminDashboardPage() {
         <RankedCategories title="Least used categories" items={insights.bottomCategories} />
       </Box>
 
-      {/* Recent activity */}
       <Box
         sx={{
           display: 'grid',
@@ -105,7 +101,6 @@ export default function AdminDashboardPage() {
           alignItems: 'start',
         }}
       >
-        {/* Recently added expenses */}
         <Paper sx={{ p: { xs: 2, sm: 3 } }}>
           <Typography variant="h6" gutterBottom>
             Recently added expenses
@@ -141,7 +136,6 @@ export default function AdminDashboardPage() {
           </Button>
         </Paper>
 
-        {/* Recently registered users */}
         <Paper sx={{ p: { xs: 2, sm: 3 } }}>
           <Typography variant="h6" gutterBottom>
             Recently registered users

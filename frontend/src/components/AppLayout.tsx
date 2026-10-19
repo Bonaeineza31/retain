@@ -16,6 +16,7 @@ import NotificationBell from './NotificationBell'
 import Sidebar from './Sidebar'
 import useAuth from '../hooks/useAuth'
 import { listCategories } from '../services/categoryService'
+import { resetAdminLists } from '../store/adminListsSlice'
 import { resetFilters } from '../store/expenseFiltersSlice'
 import { useAppDispatch } from '../store/hooks'
 import type { Category } from '../types/category'
@@ -50,6 +51,7 @@ export default function AppLayout() {
 
   async function handleSignOut() {
     dispatch(resetFilters())
+    dispatch(resetAdminLists())
     await signOut()
     navigate('/signin')
   }
@@ -101,7 +103,7 @@ export default function AppLayout() {
 
       <Box sx={{ flexGrow: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <AppBar position="sticky" color="inherit" sx={{ bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}>
-          <Toolbar sx={{ gap: 2, px: { xs: 2, sm: 3 }, minHeight: { xs: 56, sm: 60 } }}>
+          <Toolbar sx={{ gap: { xs: 1, sm: 2 }, px: { xs: 2, sm: 3 }, minHeight: { xs: 56, sm: 60 } }}>
             <Button variant="outlined" size="small" onClick={() => setMenuOpen(true)} sx={{ display: { md: 'none' } }}>
               Menu
             </Button>
@@ -112,7 +114,8 @@ export default function AppLayout() {
               sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1, textDecoration: 'none' }}
             >
               <Logo size={28} />
-              <Typography variant="h6" sx={{ color: 'primary.dark' }}>
+              {/* on the very smallest screens only the logo fits next to the buttons */}
+              <Typography variant="h6" sx={{ color: 'primary.dark', '@media (max-width:359px)': { display: 'none' } }}>
                 Retain
               </Typography>
             </Box>

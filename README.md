@@ -60,6 +60,7 @@ New accounts are always normal users, so nobody can make themselves an admin fro
 - **On your computer:** sign up in the app. Then in MongoDB, open the `users` collection and change the `role` of your account from `user` to `admin`. In the shell this is `db.users.updateOne({ email: "you@example.com" }, { $set: { role: "admin" } })`. Sign out and sign in again, and the Admin menu appears.
 - **On the live app:** the details of an admin account are given to the instructor with the submission. They are not written here, because the admin pages list the name and email of every registered user.
 
+
 ## API
 
 Every endpoint is listed, and can be tried, on the Swagger page linked above. On your computer it is at http://localhost:3000/api/docs. Protected routes need the header `Authorization: Bearer <token>`, with the token from login.

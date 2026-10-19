@@ -114,7 +114,6 @@ export default function ExpensesPage() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-      {/* Top Banner Header */}
       <Paper
         sx={{
           p: { xs: 2, sm: 2.5 },
@@ -153,7 +152,6 @@ export default function ExpensesPage() {
         </Box>
       </Paper>
 
-      {/* Filter Component */}
       <ExpenseFilters categories={categories} />
 
       {error && (
@@ -162,7 +160,6 @@ export default function ExpensesPage() {
         </Alert>
       )}
 
-      {/* Results Container */}
       {loading && result.items.length === 0 ? (
         <Box sx={{ display: 'grid', placeItems: 'center', py: 6 }}>
           <CircularProgress />
@@ -202,7 +199,6 @@ export default function ExpensesPage() {
         </Box>
       )}
 
-      {/* Expense Modal Form */}
       {formOpen && (
         <ExpenseForm
           categories={categories}
@@ -212,7 +208,6 @@ export default function ExpensesPage() {
         />
       )}
 
-      {/* Delete Confirmation */}
       <ConfirmDialog
         open={deleting !== null}
         title="Delete this expense?"

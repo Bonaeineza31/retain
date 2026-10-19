@@ -213,7 +213,6 @@ export default function ExpenseFilters({ categories }: Props) {
         </Box>
       </Box>
 
-      {/* Active filter pills (without icons) */}
       {(filters.categoryId ||
         filters.paymentMethod ||
         filters.dateFrom ||

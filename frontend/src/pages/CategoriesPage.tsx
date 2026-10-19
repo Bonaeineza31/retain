@@ -82,7 +82,6 @@ export default function CategoriesPage() {
 
   return (
     <Box sx={{ maxWidth: 760, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-      {/* Categories Header */}
       <Box
         sx={{
           display: 'flex',

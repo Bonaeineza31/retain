@@ -35,7 +35,6 @@ export default function AdminLayout() {
           </Typography>
         </Box>
 
-        {/* Segmented Navigation Buttons */}
         <Box
           sx={{
             display: 'inline-flex',
