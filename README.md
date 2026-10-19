@@ -18,6 +18,7 @@ A personal expense and budget manager. Record what you spend, set a monthly budg
 
 **Admins**
 - Create, update and delete expense categories (expenses of a deleted category move to "Uncategorized")
+- Browse all registered users and the expenses of all users, with search and pages
 - Platform insights: user and expense totals, spending per category, top and bottom 5 categories, recent expenses and recent users
 
 ## Built with

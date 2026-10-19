@@ -1,10 +1,12 @@
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { useEffect, useMemo, useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import CategoryBreakdown from '../components/CategoryBreakdown'
 import RankedCategories from '../components/RankedCategories'
 import StatTile from '../components/StatTile'
@@ -133,6 +135,10 @@ export default function AdminDashboardPage() {
               ))}
             </Box>
           )}
+
+          <Button component={RouterLink} to="/admin/expenses" sx={{ mt: 1.5 }}>
+            View all expenses
+          </Button>
         </Paper>
 
         {/* Recently registered users */}
@@ -165,6 +171,10 @@ export default function AdminDashboardPage() {
               ))}
             </Box>
           )}
+
+          <Button component={RouterLink} to="/admin/users" sx={{ mt: 1.5 }}>
+            View all users
+          </Button>
         </Paper>
       </Box>
     </Box>

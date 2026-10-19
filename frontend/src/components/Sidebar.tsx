@@ -22,6 +22,8 @@ const mainItems: NavItem[] = [
 const adminItems: NavItem[] = [
   { label: 'Insights', to: '/admin' },
   { label: 'Categories', to: '/admin/categories' },
+  { label: 'Users', to: '/admin/users' },
+  { label: 'All expenses', to: '/admin/expenses' },
 ]
 
 interface Props {

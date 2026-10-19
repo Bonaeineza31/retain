@@ -30,3 +30,24 @@ export interface AdminInsights {
   recentExpenses: AdminExpense[]
   recentUsers: User[]
 }
+
+// A registered user, with how much they have recorded.
+export interface AdminUser extends User {
+  expenseCount: number
+  // in RWF
+  totalSpent: number
+}
+
+// one page of users, plus how many match in total
+export interface AdminUserList {
+  items: AdminUser[]
+  total: number
+  pageSize: number
+}
+
+// one page of the expenses of all users, plus how many match in total
+export interface AdminExpenseList {
+  items: AdminExpense[]
+  total: number
+  pageSize: number
+}

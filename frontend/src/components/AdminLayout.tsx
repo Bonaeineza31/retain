@@ -4,9 +4,15 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { Link as RouterLink, Outlet, useLocation } from 'react-router-dom'
 
+const links = [
+  { label: 'Insights', to: '/admin' },
+  { label: 'Categories', to: '/admin/categories' },
+  { label: 'Users', to: '/admin/users' },
+  { label: 'All expenses', to: '/admin/expenses' },
+]
+
 export default function AdminLayout() {
   const location = useLocation()
-  const isCategories = location.pathname === '/admin/categories'
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -25,7 +31,7 @@ export default function AdminLayout() {
             Admin
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
-            Platform metrics and category management
+            Platform numbers, categories, users and expenses
           </Typography>
         </Box>
 
@@ -33,6 +39,7 @@ export default function AdminLayout() {
         <Box
           sx={{
             display: 'inline-flex',
+            flexWrap: 'wrap',
             p: 0.5,
             borderRadius: 1,
             bgcolor: 'background.default',
@@ -40,38 +47,26 @@ export default function AdminLayout() {
             borderColor: 'divider',
           }}
         >
-          <Button
-            component={RouterLink}
-            to="/admin"
-            size="small"
-            sx={{
-              borderRadius: 0.5,
-              px: 2,
-              bgcolor: !isCategories ? 'primary.main' : 'transparent',
-              color: !isCategories ? '#FFFFFF' : 'text.primary',
-              '&:hover': {
-                bgcolor: !isCategories ? 'primary.dark' : 'action.hover',
-              },
-            }}
-          >
-            Insights
-          </Button>
-          <Button
-            component={RouterLink}
-            to="/admin/categories"
-            size="small"
-            sx={{
-              borderRadius: 0.5,
-              px: 2,
-              bgcolor: isCategories ? 'primary.main' : 'transparent',
-              color: isCategories ? '#FFFFFF' : 'text.primary',
-              '&:hover': {
-                bgcolor: isCategories ? 'primary.dark' : 'action.hover',
-              },
-            }}
-          >
-            Categories
-          </Button>
+          {links.map((link) => {
+            const active = location.pathname === link.to
+            return (
+              <Button
+                key={link.to}
+                component={RouterLink}
+                to={link.to}
+                size="small"
+                sx={{
+                  borderRadius: 0.5,
+                  px: 2,
+                  bgcolor: active ? 'primary.main' : 'transparent',
+                  color: active ? '#FFFFFF' : 'text.primary',
+                  '&:hover': { bgcolor: active ? 'primary.dark' : 'action.hover' },
+                }}
+              >
+                {link.label}
+              </Button>
+            )
+          })}
         </Box>
       </Paper>
 

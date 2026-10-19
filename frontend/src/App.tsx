@@ -5,6 +5,8 @@ import CategoriesPage from './pages/CategoriesPage'
 import AdminRoute from './routes/AdminRoute'
 import ProtectedRoute from './routes/ProtectedRoute'
 import AdminDashboardPage from './pages/AdminDashboardPage'
+import AdminExpensesPage from './pages/AdminExpensesPage'
+import AdminUsersPage from './pages/AdminUsersPage'
 import BudgetPage from './pages/BudgetPage'
 import DashboardPage from './pages/DashboardPage'
 import ExpenseDetailPage from './pages/ExpenseDetailPage'
@@ -33,6 +35,8 @@ function App() {
               <Route element={<AdminLayout />}>
                 <Route path="/admin" element={<AdminDashboardPage />} />
                 <Route path="/admin/categories" element={<CategoriesPage />} />
+                <Route path="/admin/users" element={<AdminUsersPage />} />
+                <Route path="/admin/expenses" element={<AdminExpensesPage />} />
               </Route>
             </Route>
           </Route>

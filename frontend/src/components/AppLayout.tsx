@@ -26,6 +26,8 @@ function getPageTitle(pathname: string) {
   if (pathname === '/expenses') return 'Expenses'
   if (pathname === '/budget') return 'Budget'
   if (pathname === '/admin/categories') return 'Categories'
+  if (pathname === '/admin/users') return 'Users'
+  if (pathname === '/admin/expenses') return 'All expenses'
   if (pathname.startsWith('/admin')) return 'Insights'
   return 'Dashboard'
 }
