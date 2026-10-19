@@ -1,5 +1,10 @@
 import Budget from "../models/Budget.js";
 import { buildBudgetSummary } from "../utils/budgetHelpers.js";
+import {
+  getStatusOf,
+  notifyBudgetSet,
+  warnIfWorse,
+} from "../utils/notify.js";
 import { sendError, sendSuccess } from "../utils/responseHandler.js";
 import {
   validateBudgetAmount,
@@ -49,10 +54,14 @@ export async function setBudget(req, res) {
   try {
     // each user has one budget per month
     const existing = await Budget.findOne({ userId: req.user._id, month });
+    // how the month looked before this change, to know if it got worse
+    const before = await getStatusOf(req.user._id, month);
 
     if (existing) {
       existing.amount = Number(amount);
       await existing.save();
+      await notifyBudgetSet(req.user._id, month, existing.amount, true);
+      await warnIfWorse(req.user._id, month, before);
       return sendSuccess(res, existing, "Budget updated");
     }
 
@@ -61,6 +70,8 @@ export async function setBudget(req, res) {
       month,
       amount: Number(amount),
     });
+    await notifyBudgetSet(req.user._id, month, budget.amount, false);
+    await warnIfWorse(req.user._id, month, before);
     sendSuccess(res, budget, "Budget created", 201);
   } catch (error) {
     console.error("Setting the budget failed:", error.message);

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
+import { notifyAdminsOfNewUser } from "../utils/notify.js";
 import { sendError, sendSuccess } from "../utils/responseHandler.js";
 import {
   validateEmail,
@@ -54,6 +55,9 @@ export async function register(req, res) {
       password: hashedPassword,
       role: "user",
     });
+
+    // the admins get a notification about the new person
+    await notifyAdminsOfNewUser(user);
 
     // copy the user without the password
     const safeUser = user.toObject();

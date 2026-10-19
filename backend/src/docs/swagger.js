@@ -369,6 +369,30 @@ const paths = {
       },
     },
   },
+
+  "/api/notifications": {
+    get: {
+      tags: ["Notifications"],
+      summary: "The latest 20 notifications of the signed in user",
+      security: needsToken,
+      responses: {
+        200: ok("data: { items, unreadCount }"),
+        401: fail("Unauthorized"),
+      },
+    },
+  },
+
+  "/api/notifications/read": {
+    put: {
+      tags: ["Notifications"],
+      summary: "Mark all notifications of the signed in user as read",
+      security: needsToken,
+      responses: {
+        200: ok("data: {}"),
+        401: fail("Unauthorized"),
+      },
+    },
+  },
 };
 
 export const swaggerSpec = {
@@ -397,6 +421,11 @@ export const swaggerSpec = {
     { name: "Expenses", description: "A user's own expenses" },
     { name: "Budgets" },
     { name: "Dashboard" },
+    {
+      name: "Notifications",
+      description:
+        "Admins get one for each new user. Users get one when a budget is set, and when they approach or pass it",
+    },
     { name: "Admin", description: "Admins only" },
   ],
   paths,

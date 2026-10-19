@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Category from "../models/Category.js";
 import Expense, { paymentMethods } from "../models/Expense.js";
+import { getStatusOf, warnIfWorse } from "../utils/notify.js";
 import { sendError, sendSuccess } from "../utils/responseHandler.js";
 import {
   validateAmount,
@@ -224,11 +225,18 @@ export async function createExpense(req, res) {
       });
     }
 
+    // how the month of this expense looks before it is added
+    const month = body.date.slice(0, 7);
+    const before = await getStatusOf(req.user._id, month);
+
     // the owner is always the signed in user, never something sent in the request
     const expense = await Expense.create({
       ...cleanBody(body),
       userId: req.user._id,
     });
+
+    // warns the person if this expense pushed the month closer to the budget
+    await warnIfWorse(req.user._id, month, before);
 
     sendSuccess(res, expense, "Expense created", 201);
   } catch (error) {
@@ -270,8 +278,14 @@ export async function updateExpense(req, res) {
       });
     }
 
+    // the month the expense will be in after this change
+    const month = body.date.slice(0, 7);
+    const before = await getStatusOf(req.user._id, month);
+
     expense.set(cleanBody(body));
     await expense.save();
+
+    await warnIfWorse(req.user._id, month, before);
 
     sendSuccess(res, expense, "Expense updated");
   } catch (error) {
