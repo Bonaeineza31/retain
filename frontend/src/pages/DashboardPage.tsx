@@ -1,18 +1,14 @@
-import AddOutlined from '@mui/icons-material/AddOutlined'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
 import Paper from '@mui/material/Paper'
-import Snackbar from '@mui/material/Snackbar'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { useEffect, useMemo, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import BudgetSummaryCard from '../components/BudgetSummaryCard'
 import CategoryBreakdown from '../components/CategoryBreakdown'
-import ExpenseForm from '../components/ExpenseForm'
 import RecentExpenses from '../components/RecentExpenses'
 import StatTile from '../components/StatTile'
 import useAuth from '../hooks/useAuth'
@@ -22,7 +18,7 @@ import type { Category } from '../types/category'
 import type { DashboardData } from '../types/dashboard'
 import { STATUS_LABEL } from '../utils/budget'
 import { getErrorMessage } from '../utils/errors'
-import { currentMonth, formatDate, formatMonth, formatRWF } from '../utils/format'
+import { currentMonth, formatMonth, formatRWF } from '../utils/format'
 import { validateBudgetMonth } from '../utils/validators'
 
 export default function DashboardPage() {
@@ -32,9 +28,6 @@ export default function DashboardPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [loaded, setLoaded] = useState<{ month: string; data: DashboardData } | null>(null)
   const [error, setError] = useState('')
-  const [addExpenseOpen, setAddExpenseOpen] = useState(false)
-  const [reloadTrigger, setReloadTrigger] = useState(0)
-  const [toastMessage, setToastMessage] = useState('')
 
   const monthIsValid = validateBudgetMonth(month) === null
 
@@ -62,7 +55,7 @@ export default function DashboardPage() {
     return () => {
       outdated = true
     }
-  }, [month, monthIsValid, reloadTrigger])
+  }, [month, monthIsValid])
 
   const categoryNames = useMemo(() => {
     const names: Record<string, string> = {}
@@ -75,15 +68,8 @@ export default function DashboardPage() {
   const loading = monthIsValid && !error && loaded?.month !== month
   const data = loaded?.data
 
-  const handleExpenseSaved = (msg: string) => {
-    setAddExpenseOpen(false)
-    setToastMessage(msg)
-    setReloadTrigger((prev) => prev + 1)
-  }
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-      {/* Header Banner */}
       <Paper
         sx={{
           p: { xs: 2, sm: 3 },
@@ -132,14 +118,6 @@ export default function DashboardPage() {
             </Button>
           )}
 
-          <Button
-            variant="contained"
-            startIcon={<AddOutlined />}
-            onClick={() => setAddExpenseOpen(true)}
-            sx={{ whiteSpace: 'nowrap' }}
-          >
-            Add expense
-          </Button>
         </Box>
       </Paper>
 
@@ -161,7 +139,6 @@ export default function DashboardPage() {
         </Box>
       ) : (
         <>
-          {/* 4 Metric Tiles Strip (No icons, initial colors) */}
           <Box
             sx={{
               display: 'grid',
@@ -199,7 +176,6 @@ export default function DashboardPage() {
             />
           </Box>
 
-          {/* 2-Column Grid */}
           <Box
             sx={{
               display: 'grid',
@@ -208,7 +184,6 @@ export default function DashboardPage() {
               alignItems: 'start',
             }}
           >
-            {/* Left Column: Budget & Breakdown */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               <BudgetSummaryCard month={month} summary={data.summary} />
 
@@ -227,58 +202,12 @@ export default function DashboardPage() {
               <CategoryBreakdown items={data.spendingByCategory} categoryNames={categoryNames} />
             </Box>
 
-            {/* Right Column: Highest expense detail & Recent expenses */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <Paper sx={{ p: { xs: 2, sm: 3 } }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                  <Typography variant="h6">
-                    Highest expense
-                  </Typography>
-                  {data.highestExpense && (
-                    <Chip label="Highest" size="small" />
-                  )}
-                </Box>
-
-                {data.highestExpense ? (
-                  <>
-                    <Typography variant="h4" sx={{ color: 'primary.main', my: 0.5 }}>
-                      {formatRWF(data.highestExpense.amount)}
-                    </Typography>
-                    <Typography sx={{ fontWeight: 600 }}>{data.highestExpense.title}</Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
-                      {formatDate(data.highestExpense.date)} ·{' '}
-                      {categoryNames[data.highestExpense.categoryId] || 'Unknown'} ·{' '}
-                      <Typography component="span" variant="body2" sx={{ textTransform: 'capitalize' }}>
-                        {data.highestExpense.paymentMethod}
-                      </Typography>
-                    </Typography>
-                  </>
-                ) : (
-                  <Typography sx={{ color: 'text.secondary' }}>No expenses this month.</Typography>
-                )}
-              </Paper>
-
               <RecentExpenses expenses={data.recentExpenses} categoryNames={categoryNames} />
             </Box>
           </Box>
         </>
       )}
-
-      {/* Quick Add Expense Modal */}
-      {addExpenseOpen && (
-        <ExpenseForm
-          categories={categories}
-          onClose={() => setAddExpenseOpen(false)}
-          onSaved={handleExpenseSaved}
-        />
-      )}
-
-      <Snackbar
-        open={toastMessage !== ''}
-        autoHideDuration={3000}
-        onClose={() => setToastMessage('')}
-        message={toastMessage}
-      />
     </Box>
   )
 }

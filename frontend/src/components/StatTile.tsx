@@ -14,7 +14,7 @@ export default function StatTile({ label, value, subtitle }: Props) {
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
         {label}
       </Typography>
-      <Typography variant="h4" sx={{ wordBreak: 'break-word', my: 0.5 }}>
+      <Typography variant="h5" sx={{ wordBreak: 'break-word', my: 0.5 }}>
         {value}
       </Typography>
       {subtitle && (

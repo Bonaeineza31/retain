@@ -87,7 +87,7 @@ function Figure({ label, value, color }: { label: string; value: string; color?:
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
         {label}
       </Typography>
-      <Typography variant="h5" sx={{ color: color, mt: 0.25 }}>
+      <Typography variant="h5" sx={{ color: color, mt: 0.25, fontSize: { xs: '1.25rem', md: '1.15rem', lg: '1.25rem' } }}>
         {value}
       </Typography>
     </Box>

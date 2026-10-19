@@ -10,7 +10,6 @@ export default function AdminLayout() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-      {/* Admin Header Banner */}
       <Paper
         sx={{
           p: { xs: 2, sm: 2.5 },
@@ -30,7 +29,7 @@ export default function AdminLayout() {
           </Typography>
         </Box>
 
-        {/* Segmented Navigation Buttons (Text only, no icons) */}
+        {/* Segmented Navigation Buttons */}
         <Box
           sx={{
             display: 'inline-flex',
@@ -51,7 +50,7 @@ export default function AdminLayout() {
               bgcolor: !isCategories ? 'primary.main' : 'transparent',
               color: !isCategories ? '#FFFFFF' : 'text.primary',
               '&:hover': {
-                bgcolor: !isCategories ? 'primary.dark' : 'rgba(39, 54, 138, 0.04)',
+                bgcolor: !isCategories ? 'primary.dark' : 'action.hover',
               },
             }}
           >
@@ -67,7 +66,7 @@ export default function AdminLayout() {
               bgcolor: isCategories ? 'primary.main' : 'transparent',
               color: isCategories ? '#FFFFFF' : 'text.primary',
               '&:hover': {
-                bgcolor: isCategories ? 'primary.dark' : 'rgba(39, 54, 138, 0.04)',
+                bgcolor: isCategories ? 'primary.dark' : 'action.hover',
               },
             }}
           >
