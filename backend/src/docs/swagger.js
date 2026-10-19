@@ -318,6 +318,57 @@ const paths = {
       },
     },
   },
+
+  "/api/admin/users": {
+    get: {
+      tags: ["Admin"],
+      summary: "One page of the registered users (admin only)",
+      security: needsToken,
+      parameters: [
+        {
+          name: "search",
+          in: "query",
+          description: "looks in the name and the email",
+          schema: { type: "string" },
+        },
+        { name: "page", in: "query", schema: { type: "integer", default: 1 } },
+      ],
+      responses: {
+        200: ok(
+          "data: { items, total, page, pageSize }. Each item has expenseCount and totalSpent",
+        ),
+        400: fail("ValidationError"),
+        401: fail("Unauthorized"),
+        403: fail("Forbidden"),
+      },
+    },
+  },
+
+  "/api/admin/expenses": {
+    get: {
+      tags: ["Admin"],
+      summary: "One page of the expenses of all users, newest first (admin only)",
+      security: needsToken,
+      parameters: [
+        {
+          name: "search",
+          in: "query",
+          description: "looks in the title and the notes",
+          schema: { type: "string" },
+        },
+        { name: "categoryId", in: "query", schema: { type: "string" } },
+        { name: "page", in: "query", schema: { type: "integer", default: 1 } },
+      ],
+      responses: {
+        200: ok(
+          "data: { items, total, page, pageSize }. Each item also has userName",
+        ),
+        400: fail("ValidationError"),
+        401: fail("Unauthorized"),
+        403: fail("Forbidden"),
+      },
+    },
+  },
 };
 
 export const swaggerSpec = {

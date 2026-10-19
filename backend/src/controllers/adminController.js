@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Category from "../models/Category.js";
 import Expense from "../models/Expense.js";
 import User from "../models/User.js";
@@ -82,6 +83,124 @@ export async function getInsights(req, res) {
     );
   } catch (error) {
     console.error("Loading the insights failed:", error.message);
+    sendError(res, "Something went wrong", "SERVER_ERROR", 500);
+  }
+}
+
+// reads the page number from the address, like ?page=2. 10 on each page
+function readPage(query) {
+  const page = typeof query.page === "string" && query.page ? Number(query.page) : 1;
+  if (!Number.isInteger(page) || page < 1) {
+    return { error: "Page must be a whole number from 1" };
+  }
+  return { page, pageSize: 10 };
+}
+
+// turns the search words into something safe to look for. symbols are read as plain letters
+function searchPattern(value) {
+  const search = typeof value === "string" ? value.trim() : "";
+  if (!search) {
+    return null;
+  }
+  return new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+}
+
+// gives back one page of the registered users, with how many expenses each has made
+export async function listUsers(req, res) {
+  const { page, pageSize, error } = readPage(req.query);
+  if (error) {
+    return sendError(res, "Please fix the errors", "VALIDATION_ERROR", 400, {
+      page: error,
+    });
+  }
+
+  try {
+    // admins are left out, like in the insights
+    const filter = { role: "user" };
+    const pattern = searchPattern(req.query.search);
+    if (pattern) {
+      filter.$or = [{ name: pattern }, { email: pattern }];
+    }
+
+    const total = await User.countDocuments(filter);
+    const users = await User.find(filter)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    const expenses = await Expense.find({
+      userId: { $in: users.map((user) => user._id) },
+    });
+
+    const items = users.map((user) => {
+      const own = expenses.filter(
+        (expense) => String(expense.userId) === String(user._id),
+      );
+      return {
+        ...user.toObject(),
+        expenseCount: own.length,
+        totalSpent: sumAmounts(own),
+      };
+    });
+
+    sendSuccess(res, { items, total, page, pageSize }, "Users loaded");
+  } catch (error) {
+    console.error("Listing users failed:", error.message);
+    sendError(res, "Something went wrong", "SERVER_ERROR", 500);
+  }
+}
+
+// gives back one page of the expenses of all users, newest first
+export async function listAllExpenses(req, res) {
+  const { page, pageSize, error } = readPage(req.query);
+  const errors = {};
+  if (error) {
+    errors.page = error;
+  }
+
+  const filter = {};
+  const pattern = searchPattern(req.query.search);
+  if (pattern) {
+    filter.$or = [{ title: pattern }, { notes: pattern }];
+  }
+
+  const categoryId = req.query.categoryId;
+  if (typeof categoryId === "string" && categoryId) {
+    if (mongoose.isValidObjectId(categoryId)) {
+      filter.categoryId = categoryId;
+    } else {
+      errors.categoryId = "Category is not valid";
+    }
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return sendError(res, "Please fix the errors", "VALIDATION_ERROR", 400, errors);
+  }
+
+  try {
+    const total = await Expense.countDocuments(filter);
+    const expenses = await Expense.find(filter)
+      .sort({ date: -1, createdAt: -1 })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    // the person's name goes next to each expense
+    const users = await User.find({
+      _id: { $in: expenses.map((expense) => expense.userId) },
+    });
+    const userNames = {};
+    for (const user of users) {
+      userNames[String(user._id)] = user.name;
+    }
+
+    const items = expenses.map((expense) => ({
+      ...expense.toObject(),
+      userName: userNames[String(expense.userId)] || "Unknown user",
+    }));
+
+    sendSuccess(res, { items, total, page, pageSize }, "Expenses loaded");
+  } catch (error) {
+    console.error("Listing all expenses failed:", error.message);
     sendError(res, "Something went wrong", "SERVER_ERROR", 500);
   }
 }
