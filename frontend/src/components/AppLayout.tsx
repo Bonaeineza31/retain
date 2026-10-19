@@ -11,6 +11,7 @@ import { useState } from 'react'
 import { Link as RouterLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import ExpenseForm from './ExpenseForm'
 import Logo from './Logo'
+import NotificationBell from './NotificationBell'
 import Sidebar from './Sidebar'
 import useAuth from '../hooks/useAuth'
 import { listCategories } from '../services/categoryService'
@@ -136,6 +137,8 @@ export default function AppLayout() {
             >
               Add expense
             </Button>
+
+            <NotificationBell />
           </Toolbar>
         </AppBar>
 

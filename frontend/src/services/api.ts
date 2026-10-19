@@ -32,6 +32,9 @@ export class ApiError extends Error {
   }
 }
 
+// the name of the event sent after every change, see request below
+export const DATA_CHANGED = 'retain-data-changed'
+
 interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
   // sent as JSON
@@ -93,6 +96,11 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       response.status,
       error.fields,
     )
+  }
+
+  // something was saved or deleted, so the notification bell can look for new messages
+  if (options.method && options.method !== 'GET') {
+    window.dispatchEvent(new Event(DATA_CHANGED))
   }
 
   return reply.data as T

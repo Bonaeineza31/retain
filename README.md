@@ -15,10 +15,12 @@ A personal expense and budget manager. Record what you spend, set a monthly budg
 - Paginated expense list
 - Set a monthly budget and track total spent, remaining amount, and whether you are within, approaching or over budget
 - Dashboard: monthly spending, remaining budget, highest expense, spending by category, recent expenses
+- Notifications (bell in the top bar) when a budget is set, and when spending is approaching or over the budget
 
 **Admins**
 - Create, update and delete expense categories (expenses of a deleted category move to "Uncategorized")
 - Browse all registered users and the expenses of all users, with search and pages
+- Notifications when a new user registers
 - Platform insights: user and expense totals, spending per category, top and bottom 5 categories, recent expenses and recent users
 
 ## Built with
