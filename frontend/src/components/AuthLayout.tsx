@@ -3,6 +3,7 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import { keyframes } from '@mui/material/styles'
 import type { ReactNode } from 'react'
+import ColorModeToggle from './ColorModeToggle'
 import Logo from './Logo'
 
 interface Props {
@@ -35,10 +36,15 @@ export default function AuthLayout({ title, subtitle, children }: Props) {
         justifyContent: 'center',
         minHeight: '100vh',
         bgcolor: 'background.default',
+        position: 'relative',
         px: 2,
         py: { xs: 4, sm: 6 },
       }}
     >
+      <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+        <ColorModeToggle />
+      </Box>
+
       <Box
         sx={{
           width: '100%',

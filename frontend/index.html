@@ -12,6 +12,15 @@
       rel="stylesheet"
     />
     <title>Retain</title>
+    <script>
+      // paints the page dark right away, so there is no white flash before the app starts
+      try {
+        var mode = localStorage.getItem('retain.colorMode')
+        if (mode === 'dark' || (!mode && matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.style.background = '#0E1126'
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

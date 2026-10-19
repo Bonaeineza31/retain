@@ -41,7 +41,7 @@ export default function RecentExpenses({ expenses, categoryNames }: Props) {
                   color: 'inherit',
                   borderRadius: 1,
                   px: 0.5,
-                  '&:hover': { bgcolor: 'rgba(39, 54, 138, 0.03)' },
+                  '&:hover': { bgcolor: 'action.hover' },
                 }}
               >
                 <Box sx={{ minWidth: 0 }}>

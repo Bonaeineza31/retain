@@ -16,6 +16,7 @@ A personal expense and budget manager. Record what you spend, set a monthly budg
 - Set a monthly budget and track total spent, remaining amount, and whether you are within, approaching or over budget
 - Dashboard: monthly spending, remaining budget, highest expense, spending by category, recent expenses
 - Notifications (bell in the top bar) when a budget is set, and when spending is approaching or over the budget
+- Light and dark mode: starts with the device setting, and the choice is remembered
 
 **Admins**
 - Create, update and delete expense categories (expenses of a deleted category move to "Uncategorized")

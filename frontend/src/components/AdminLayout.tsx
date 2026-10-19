@@ -59,7 +59,7 @@ export default function AdminLayout() {
                   borderRadius: 0.5,
                   px: 2,
                   bgcolor: active ? 'primary.main' : 'transparent',
-                  color: active ? '#FFFFFF' : 'text.primary',
+                  color: active ? 'primary.contrastText' : 'text.primary',
                   '&:hover': { bgcolor: active ? 'primary.dark' : 'action.hover' },
                 }}
               >
