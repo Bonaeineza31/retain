@@ -57,8 +57,7 @@ Copy `.env.example` to `.env`. `VITE_BACKEND_URL` is the address of the backend:
 
 New accounts are always normal users, so nobody can make themselves an admin from the app.
 
-- **On your computer:** sign up in the app. Then in MongoDB, open the `users` collection and change the `role` of your account from `user` to `admin`. In the shell this is `db.users.updateOne({ email: "you@example.com" }, { $set: { role: "admin" } })`. Sign out and sign in again, and the Admin menu appears.
-- **On the live app:** the details of an admin account are given to the instructor with the submission. They are not written here, because the admin pages list the name and email of every registered user.
+- **On your computer:** sign up in the app. Then in MongoDB, open the `users` collection and change the `role` of your account from `user` to `admin`. Sign out and sign in again, and the Admin menu appears.
 
 
 ## API
