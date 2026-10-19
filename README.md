@@ -33,7 +33,7 @@ A personal expense and budget manager. Record what you spend, set a monthly budg
 
 ## Run it on your computer
 
-You need Node.js 20 or newer and a MongoDB database 
+You need Node.js 20 or newer and a MongoDB database.
 
 **1. The backend**
 
@@ -53,7 +53,12 @@ npm install
 
 Copy `.env.example` to `.env`. `VITE_BACKEND_URL` is the address of the backend: the live one, or `http://localhost:3000`. Then run `npm run dev` and open http://localhost:5173. Other commands: `npm run build` and `npm run lint`.
 
-New accounts are always normal users. To make an admin, change a user's `role` to `admin` in the `users` collection in MongoDB.
+## Trying the admin features
+
+New accounts are always normal users, so nobody can make themselves an admin from the app.
+
+- **On your computer:** sign up in the app. Then in MongoDB, open the `users` collection and change the `role` of your account from `user` to `admin`. In the shell this is `db.users.updateOne({ email: "you@example.com" }, { $set: { role: "admin" } })`. Sign out and sign in again, and the Admin menu appears.
+- **On the live app:** the details of an admin account are given to the instructor with the submission. They are not written here, because the admin pages list the name and email of every registered user.
 
 ## API
 
