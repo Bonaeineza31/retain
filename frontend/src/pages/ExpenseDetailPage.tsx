@@ -1,3 +1,6 @@
+import ArrowBackOutlined from '@mui/icons-material/ArrowBackOutlined'
+import DeleteOutlineOutlined from '@mui/icons-material/DeleteOutlineOutlined'
+import EditOutlined from '@mui/icons-material/EditOutlined'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -17,16 +20,13 @@ import type { Expense } from '../types/expense'
 import { getErrorMessage } from '../utils/errors'
 import { formatDate, formatRWF } from '../utils/format'
 
-// Shows everything about one expense, with buttons to edit or delete it.
 export default function ExpenseDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
 
   const [categories, setCategories] = useState<Category[]>([])
-  // the expense we have, and which id it was loaded for
   const [loaded, setLoaded] = useState<{ id: string; expense: Expense } | null>(null)
   const [error, setError] = useState('')
-  // goes up by one after an edit, to load the expense again
   const [reloadCount, setReloadCount] = useState(0)
 
   const [editing, setEditing] = useState(false)
@@ -40,7 +40,6 @@ export default function ExpenseDetailPage() {
       .catch((err: unknown) => setError(getErrorMessage(err)))
   }, [])
 
-  // load the expense whenever the address changes, or after an edit
   useEffect(() => {
     if (!id) return
     let outdated = false
@@ -64,18 +63,15 @@ export default function ExpenseDetailPage() {
   const expense = loaded && loaded.id === id ? loaded.expense : null
   const loading = !error && !expense
 
-  // the name of the expense's category
   const categoryName =
     categories.find((c) => c._id === expense?.categoryId)?.name ?? 'Unknown'
 
-  // Closes the form, shows a message and loads the expense again.
   function handleSaved(text: string) {
     setEditing(false)
     setMessage(text)
-    setReloadCount(reloadCount + 1)
+    setReloadCount((prev) => prev + 1)
   }
 
-  // Deletes the expense after the user said yes, then goes back to the list.
   async function handleConfirmDelete() {
     if (!expense) return
     setDeleteBusy(true)
@@ -91,7 +87,12 @@ export default function ExpenseDetailPage() {
 
   return (
     <Box sx={{ maxWidth: 720 }}>
-      <Button component={RouterLink} to="/expenses" sx={{ mb: 2 }}>
+      <Button
+        component={RouterLink}
+        to="/expenses"
+        startIcon={<ArrowBackOutlined />}
+        sx={{ mb: 2 }}
+      >
         Back to expenses
       </Button>
 
@@ -112,7 +113,7 @@ export default function ExpenseDetailPage() {
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             Amount
           </Typography>
-          <Typography variant="h3" sx={{ wordBreak: 'break-word' }}>
+          <Typography variant="h3" sx={{ wordBreak: 'break-word', color: 'primary.main' }}>
             {formatRWF(expense.amount)}
           </Typography>
           <Typography variant="h5" sx={{ mt: 1, mb: 3, wordBreak: 'break-word' }}>
@@ -142,11 +143,20 @@ export default function ExpenseDetailPage() {
             {expense.notes || 'No notes'}
           </Typography>
 
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-            <Button variant="contained" onClick={() => setEditing(true)}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
+            <Button
+              variant="contained"
+              startIcon={<EditOutlined />}
+              onClick={() => setEditing(true)}
+            >
               Edit
             </Button>
-            <Button color="error" variant="outlined" onClick={() => setConfirmingDelete(true)}>
+            <Button
+              color="error"
+              variant="outlined"
+              startIcon={<DeleteOutlineOutlined />}
+              onClick={() => setConfirmingDelete(true)}
+            >
               Delete
             </Button>
           </Box>
@@ -186,7 +196,6 @@ export default function ExpenseDetailPage() {
   )
 }
 
-// One labelled value, like Category or Date.
 function Detail({
   label,
   value,

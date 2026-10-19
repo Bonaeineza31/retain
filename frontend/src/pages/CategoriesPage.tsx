@@ -1,4 +1,5 @@
-import DeleteOutlined from '@mui/icons-material/DeleteOutlined'
+import AddOutlined from '@mui/icons-material/AddOutlined'
+import DeleteOutlineOutlined from '@mui/icons-material/DeleteOutlineOutlined'
 import EditOutlined from '@mui/icons-material/EditOutlined'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
@@ -17,11 +18,9 @@ import { deleteCategory, listCategories } from '../services/categoryService'
 import type { Category } from '../types/category'
 import { getErrorMessage } from '../utils/errors'
 
-// The admin screen for adding, renaming and deleting categories.
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [error, setError] = useState('')
-  // goes up by one after an add, rename or delete, to load the list again
   const [reloadCount, setReloadCount] = useState(0)
 
   const [formOpen, setFormOpen] = useState(false)
@@ -49,33 +48,29 @@ export default function CategoriesPage() {
     }
   }, [reloadCount])
 
-  // Opens the form empty, to add a new category.
   function openAdd() {
     setEditing(undefined)
     setFormOpen(true)
   }
 
-  // Opens the form filled in, to rename a category.
   function openRename(category: Category) {
     setEditing(category)
     setFormOpen(true)
   }
 
-  // Closes the form, shows a message and loads the list again.
   function handleSaved(text: string) {
     setFormOpen(false)
     setMessage(text)
-    setReloadCount(reloadCount + 1)
+    setReloadCount((prev) => prev + 1)
   }
 
-  // Deletes the chosen category after the admin said yes.
   async function handleConfirmDelete() {
     if (!deleting) return
     setDeleteBusy(true)
     try {
       await deleteCategory(deleting._id)
       setMessage('Category deleted')
-      setReloadCount(reloadCount + 1)
+      setReloadCount((prev) => prev + 1)
     } catch (err) {
       setError(getErrorMessage(err))
     }
@@ -86,24 +81,32 @@ export default function CategoriesPage() {
   const defaultName = categories?.find((c) => c.isDefault)?.name ?? 'the default category'
 
   return (
-    <Box sx={{ maxWidth: 720 }}>
+    <Box sx={{ maxWidth: 760, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+      {/* Categories Header */}
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           gap: 2,
-          mb: 2,
         }}
       >
-        <Typography variant="h5">Expense categories</Typography>
-        <Button variant="contained" onClick={openAdd} sx={{ whiteSpace: 'nowrap' }}>
+        <Typography variant="h5">
+          Expense categories
+        </Typography>
+
+        <Button
+          variant="contained"
+          startIcon={<AddOutlined />}
+          onClick={openAdd}
+          sx={{ whiteSpace: 'nowrap' }}
+        >
           Add category
         </Button>
       </Box>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error">
           {error}
         </Alert>
       )}
@@ -122,7 +125,7 @@ export default function CategoriesPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  gap: 1,
+                  gap: 2,
                   px: { xs: 2, sm: 3 },
                   py: 1.5,
                 }}
@@ -134,7 +137,7 @@ export default function CategoriesPage() {
                 {category.isDefault ? (
                   <Chip label="Default" size="small" />
                 ) : (
-                  <Box sx={{ whiteSpace: 'nowrap' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                     <IconButton
                       size="small"
                       aria-label={`Rename ${category.name}`}
@@ -147,7 +150,7 @@ export default function CategoriesPage() {
                       aria-label={`Delete ${category.name}`}
                       onClick={() => setDeleting(category)}
                     >
-                      <DeleteOutlined fontSize="small" />
+                      <DeleteOutlineOutlined fontSize="small" />
                     </IconButton>
                   </Box>
                 )}

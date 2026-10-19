@@ -1,8 +1,11 @@
+import AddOutlined from '@mui/icons-material/AddOutlined'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
 import Pagination from '@mui/material/Pagination'
+import Paper from '@mui/material/Paper'
 import Snackbar from '@mui/material/Snackbar'
 import Typography from '@mui/material/Typography'
 import { useEffect, useMemo, useState } from 'react'
@@ -16,22 +19,19 @@ import { setPage, type ExpenseFiltersState } from '../store/expenseFiltersSlice'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import type { Category } from '../types/category'
 import type { Expense, ExpenseList as ExpenseListResult } from '../types/expense'
-import { formatRWF } from '../utils/format'
 import { getErrorMessage } from '../utils/errors'
+import { formatRWF } from '../utils/format'
 
-// The expense list with search, filters, sorting, pages, and add, edit and delete.
 export default function ExpensesPage() {
   const dispatch = useAppDispatch()
   const filters = useAppSelector((state) => state.expenseFilters)
 
   const [categories, setCategories] = useState<Category[]>([])
-  // the data we have, and the filters it was loaded with
   const [loaded, setLoaded] = useState<{
     filters: ExpenseFiltersState
     data: ExpenseListResult
   } | null>(null)
   const [error, setError] = useState('')
-  // goes up by one after an add, edit or delete, to load the list again
   const [reloadCount, setReloadCount] = useState(0)
 
   const [formOpen, setFormOpen] = useState(false)
@@ -46,14 +46,12 @@ export default function ExpensesPage() {
       .catch((err: unknown) => setError(getErrorMessage(err)))
   }, [])
 
-  // load again whenever a filter, the sort or the page changes
   useEffect(() => {
     let outdated = false
 
     listExpenses(filters)
       .then((data) => {
         if (outdated) return
-        // the last expense of the last page was deleted: go back one page
         if (data.items.length === 0 && filters.page > 1) {
           dispatch(setPage(filters.page - 1))
           return
@@ -65,14 +63,12 @@ export default function ExpensesPage() {
         if (!outdated) setError(getErrorMessage(err))
       })
 
-    // if the filters change again before this finishes, ignore this answer
     return () => {
       outdated = true
     }
   }, [filters, reloadCount, dispatch])
 
   const result = loaded ? loaded.data : { items: [], total: 0 }
-  // still loading while the data on screen belongs to older filters
   const loading = !error && (!loaded || loaded.filters !== filters)
 
   const categoryNames = useMemo(() => {
@@ -84,34 +80,31 @@ export default function ExpensesPage() {
   }, [categories])
 
   const pageCount = Math.max(1, Math.ceil(result.total / filters.pageSize))
+  const pageTotal = result.items.reduce((sum, item) => sum + item.amount, 0)
 
-  // Opens the form empty, to add a new expense.
   function openAdd() {
     setEditing(undefined)
     setFormOpen(true)
   }
 
-  // Opens the form filled in, to change an expense.
   function openEdit(expense: Expense) {
     setEditing(expense)
     setFormOpen(true)
   }
 
-  // Closes the form, shows a message and loads the list again.
   function handleSaved(text: string) {
     setFormOpen(false)
     setMessage(text)
-    setReloadCount(reloadCount + 1)
+    setReloadCount((prev) => prev + 1)
   }
 
-  // Deletes the chosen expense after the user said yes.
   async function handleConfirmDelete() {
     if (!deleting) return
     setDeleteBusy(true)
     try {
       await deleteExpense(deleting._id)
       setMessage('Expense deleted')
-      setReloadCount(reloadCount + 1)
+      setReloadCount((prev) => prev + 1)
     } catch (err) {
       setError(getErrorMessage(err))
     }
@@ -120,51 +113,84 @@ export default function ExpensesPage() {
   }
 
   return (
-    <Box>
-      <Box
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+      {/* Top Banner Header */}
+      <Paper
         sx={{
+          p: { xs: 2, sm: 2.5 },
           display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: { xs: 'flex-start', sm: 'center' },
           gap: 2,
-          mb: 2,
         }}
       >
-        <Typography variant="h3">Expenses</Typography>
-        <Button variant="contained" onClick={openAdd} sx={{ whiteSpace: 'nowrap' }}>
-          Add expense
-        </Button>
-      </Box>
+        <Box>
+          <Typography variant="h3">
+            Expenses
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+            {result.total} {result.total === 1 ? 'expense' : 'expenses'} recorded
+          </Typography>
+        </Box>
 
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
+          {result.items.length > 0 && (
+            <Chip
+              label={`Page sum: ${formatRWF(pageTotal)}`}
+              size="small"
+              variant="outlined"
+            />
+          )}
+          <Button
+            variant="contained"
+            startIcon={<AddOutlined />}
+            onClick={openAdd}
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            Add expense
+          </Button>
+        </Box>
+      </Paper>
+
+      {/* Filter Component */}
       <ExpenseFilters categories={categories} />
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error">
           {error}
         </Alert>
       )}
 
+      {/* Results Container */}
       {loading && result.items.length === 0 ? (
         <Box sx={{ display: 'grid', placeItems: 'center', py: 6 }}>
           <CircularProgress />
         </Box>
       ) : result.total === 0 ? (
-        <Typography sx={{ py: 6, textAlign: 'center', color: 'text.secondary' }}>
-          No expenses match your filters.
-        </Typography>
-      ) : (
-        <>
-          <Typography variant="body2" sx={{ mb: 1, color: 'text.secondary' }}>
-            {result.total} {result.total === 1 ? 'expense' : 'expenses'}
+        <Paper sx={{ py: 6, px: 3, textAlign: 'center' }}>
+          <Typography sx={{ color: 'text.secondary' }}>
+            No expenses match your filters.
           </Typography>
+        </Paper>
+      ) : (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <ExpenseList
             expenses={result.items}
             categoryNames={categoryNames}
             onEdit={openEdit}
             onDelete={setDeleting}
           />
+
           {pageCount > 1 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                py: 2,
+              }}
+            >
               <Pagination
                 count={pageCount}
                 page={filters.page}
@@ -173,9 +199,10 @@ export default function ExpensesPage() {
               />
             </Box>
           )}
-        </>
+        </Box>
       )}
 
+      {/* Expense Modal Form */}
       {formOpen && (
         <ExpenseForm
           categories={categories}
@@ -185,6 +212,7 @@ export default function ExpensesPage() {
         />
       )}
 
+      {/* Delete Confirmation */}
       <ConfirmDialog
         open={deleting !== null}
         title="Delete this expense?"

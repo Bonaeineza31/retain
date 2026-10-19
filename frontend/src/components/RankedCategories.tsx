@@ -9,7 +9,7 @@ interface Props {
   items: CategoryStat[]
 }
 
-// a numbered list of categories with how many expenses use each
+// A numbered list of categories with how many expenses use each.
 export default function RankedCategories({ title, items }: Props) {
   return (
     <Paper sx={{ p: { xs: 2, sm: 3 } }}>

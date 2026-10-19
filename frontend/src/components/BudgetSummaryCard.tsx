@@ -48,7 +48,7 @@ export default function BudgetSummaryCard({ month, summary }: Props) {
         }}
       >
         <Typography variant="h6">{formatMonth(month)}</Typography>
-        <Chip label={STATUS_LABEL[status]} color={color} />
+        <Chip label={STATUS_LABEL[status]} color={color} size="small" />
       </Box>
 
       <LinearProgress
@@ -81,14 +81,13 @@ export default function BudgetSummaryCard({ month, summary }: Props) {
   )
 }
 
-// One labelled number, like Spent or Remaining.
 function Figure({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <Box>
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
         {label}
       </Typography>
-      <Typography variant="h5" sx={{ color: color }}>
+      <Typography variant="h5" sx={{ color: color, mt: 0.25 }}>
         {value}
       </Typography>
     </Box>

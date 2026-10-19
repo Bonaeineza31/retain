@@ -1,4 +1,4 @@
-import DeleteOutlined from '@mui/icons-material/DeleteOutlined'
+import DeleteOutlineOutlined from '@mui/icons-material/DeleteOutlineOutlined'
 import EditOutlined from '@mui/icons-material/EditOutlined'
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined'
 import Box from '@mui/material/Box'
@@ -28,48 +28,26 @@ interface Props {
   onDelete: (expense: Expense) => void
 }
 
-// Shows the expenses as a table on big screens and as cards on phones.
-// Tapping a card or a row opens the details of that expense.
 export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete }: Props) {
   const theme = useTheme()
   const isWide = useMediaQuery(theme.breakpoints.up('sm'))
   const navigate = useNavigate()
 
-  // The name of the category an expense belongs to.
   function categoryOf(expense: Expense) {
     return categoryNames[expense.categoryId] || 'Unknown'
   }
 
-  // Goes to the details page of an expense.
   function openDetails(expense: Expense) {
     navigate(`/expenses/${expense._id}`)
   }
 
-  // Stops a click on a button from also counting as a click on the card or row.
   function keepClick(event: MouseEvent) {
     event.stopPropagation()
   }
 
-  // The title of an expense, as a link to its details page.
-  function titleLink(expense: Expense) {
-    return (
-      <Link
-        component={RouterLink}
-        to={`/expenses/${expense._id}`}
-        onClick={keepClick}
-        color="inherit"
-        underline="hover"
-        sx={{ fontWeight: 600, wordBreak: 'break-word' }}
-      >
-        {expense.title}
-      </Link>
-    )
-  }
-
-  // The edit and delete buttons of one expense.
   function editAndDelete(expense: Expense) {
     return (
-      <>
+      <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}>
         <IconButton
           size="small"
           aria-label={`Edit ${expense.title}`}
@@ -88,13 +66,13 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
             onDelete(expense)
           }}
         >
-          <DeleteOutlined fontSize="small" />
+          <DeleteOutlineOutlined fontSize="small" />
         </IconButton>
-      </>
+      </Box>
     )
   }
 
-  // phones get cards, a table would be too wide
+  // Mobile view
   if (!isWide) {
     return (
       <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 1.5 }}>
@@ -105,7 +83,16 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
             sx={{ p: 2, cursor: 'pointer', '&:hover': { borderColor: 'primary.main' } }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
-              {titleLink(expense)}
+              <Link
+                component={RouterLink}
+                to={`/expenses/${expense._id}`}
+                onClick={keepClick}
+                color="inherit"
+                underline="hover"
+                sx={{ fontWeight: 600, wordBreak: 'break-word' }}
+              >
+                {expense.title}
+              </Link>
               <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
                 {formatRWF(expense.amount)}
               </Typography>
@@ -123,7 +110,10 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                mt: 0.5,
+                mt: 1,
+                pt: 1,
+                borderTop: 1,
+                borderColor: 'divider',
               }}
             >
               <Button
@@ -143,6 +133,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
     )
   }
 
+  // Desktop view
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -166,7 +157,16 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
             >
               <TableCell sx={{ whiteSpace: 'nowrap' }}>{formatDate(expense.date)}</TableCell>
               <TableCell>
-                {titleLink(expense)}
+                <Link
+                  component={RouterLink}
+                  to={`/expenses/${expense._id}`}
+                  onClick={keepClick}
+                  color="inherit"
+                  underline="hover"
+                  sx={{ fontWeight: 600, wordBreak: 'break-word' }}
+                >
+                  {expense.title}
+                </Link>
                 {expense.notes && (
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {expense.notes}
@@ -185,6 +185,7 @@ export default function ExpenseList({ expenses, categoryNames, onEdit, onDelete 
                   to={`/expenses/${expense._id}`}
                   onClick={keepClick}
                   aria-label={`View details of ${expense.title}`}
+                  sx={{ mr: 0.5 }}
                 >
                   <VisibilityOutlined fontSize="small" />
                 </IconButton>

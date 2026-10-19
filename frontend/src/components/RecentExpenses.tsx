@@ -28,16 +28,34 @@ export default function RecentExpenses({ expenses, categoryNames }: Props) {
           {expenses.map((expense, index) => (
             <Box key={expense._id}>
               {index > 0 && <Divider />}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 1.5 }}>
+              <Box
+                component={RouterLink}
+                to={`/expenses/${expense._id}`}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 2,
+                  py: 1.5,
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  borderRadius: 1,
+                  px: 0.5,
+                  '&:hover': { bgcolor: 'rgba(39, 54, 138, 0.03)' },
+                }}
+              >
                 <Box sx={{ minWidth: 0 }}>
                   <Typography sx={{ fontWeight: 600 }} noWrap>
                     {expense.title}
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {formatDate(expense.date)} · {categoryNames[expense.categoryId] || 'Unknown'}
+                    {formatDate(expense.date)} · {categoryNames[expense.categoryId] || 'Unknown'} ·{' '}
+                    <Typography component="span" variant="body2" sx={{ textTransform: 'capitalize' }}>
+                      {expense.paymentMethod}
+                    </Typography>
                   </Typography>
                 </Box>
-                <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
+                <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap', color: 'primary.main' }}>
                   {formatRWF(expense.amount)}
                 </Typography>
               </Box>
@@ -46,7 +64,7 @@ export default function RecentExpenses({ expenses, categoryNames }: Props) {
         </Box>
       )}
 
-      <Button component={RouterLink} to="/expenses" sx={{ mt: 1 }}>
+      <Button component={RouterLink} to="/expenses" sx={{ mt: 1.5 }}>
         View all expenses
       </Button>
     </Paper>

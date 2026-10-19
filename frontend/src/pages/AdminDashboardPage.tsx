@@ -10,10 +10,9 @@ import RankedCategories from '../components/RankedCategories'
 import StatTile from '../components/StatTile'
 import { getInsights } from '../services/adminService'
 import type { AdminInsights } from '../types/admin'
-import { formatDate, formatRWF } from '../utils/format'
 import { getErrorMessage } from '../utils/errors'
+import { formatDate, formatRWF } from '../utils/format'
 
-// The admin overview: totals, category usage and recent activity.
 export default function AdminDashboardPage() {
   const [insights, setInsights] = useState<AdminInsights | null>(null)
   const [error, setError] = useState('')
@@ -24,8 +23,6 @@ export default function AdminDashboardPage() {
       .catch((err: unknown) => setError(getErrorMessage(err)))
   }, [])
 
-  // the category chart reuses the user dashboard component,
-  // so it gets the same shape of data plus a name lookup
   const chart = useMemo(() => {
     const items = (insights?.spendingPerCategory ?? [])
       .filter((c) => c.total > 0)
@@ -50,22 +47,41 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 3 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+      {/* 4 Stat Metric Tiles (No icons, borderLeft accent, exact initial colors) */}
       <Box
         sx={{
           display: 'grid',
           gap: 2,
-          gridTemplateColumns: { xs: 'minmax(0, 1fr)', sm: 'repeat(2, minmax(0, 1fr))', lg: 'repeat(4, minmax(0, 1fr))' },
+          gridTemplateColumns: {
+            xs: 'minmax(0, 1fr)',
+            sm: 'repeat(2, minmax(0, 1fr))',
+            lg: 'repeat(4, minmax(0, 1fr))',
+          },
         }}
       >
-        <StatTile label="Registered users" value={String(insights.totalUsers)} />
-        <StatTile label="Expenses recorded" value={String(insights.totalExpenses)} />
-        <StatTile label="Total value" value={formatRWF(insights.totalValue)} />
-        <StatTile label="Expenses this month" value={String(insights.expensesThisMonth)} />
+        <StatTile
+          label="Registered users"
+          value={String(insights.totalUsers)}
+        />
+        <StatTile
+          label="Expenses recorded"
+          value={String(insights.totalExpenses)}
+        />
+        <StatTile
+          label="Total value"
+          value={formatRWF(insights.totalValue)}
+        />
+        <StatTile
+          label="Expenses this month"
+          value={String(insights.expensesThisMonth)}
+        />
       </Box>
 
+      {/* Category chart */}
       <CategoryBreakdown items={chart.items} categoryNames={chart.names} />
 
+      {/* Top and Bottom Categories */}
       <Box
         sx={{
           display: 'grid',
@@ -78,6 +94,7 @@ export default function AdminDashboardPage() {
         <RankedCategories title="Least used categories" items={insights.bottomCategories} />
       </Box>
 
+      {/* Recent activity */}
       <Box
         sx={{
           display: 'grid',
@@ -86,58 +103,68 @@ export default function AdminDashboardPage() {
           alignItems: 'start',
         }}
       >
+        {/* Recently added expenses */}
         <Paper sx={{ p: { xs: 2, sm: 3 } }}>
           <Typography variant="h6" gutterBottom>
             Recently added expenses
           </Typography>
-          {insights.recentExpenses.length === 0 && (
+
+          {insights.recentExpenses.length === 0 ? (
             <Typography sx={{ color: 'text.secondary' }}>Nothing recorded yet.</Typography>
-          )}
-          {insights.recentExpenses.map((expense, index) => (
-            <Box key={expense._id}>
-              {index > 0 && <Divider />}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 1.25 }}>
-                <Box sx={{ minWidth: 0 }}>
-                  <Typography sx={{ fontWeight: 600 }} noWrap>
-                    {expense.title}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {expense.userName} · {formatDate(expense.date)}
-                  </Typography>
+          ) : (
+            <Box>
+              {insights.recentExpenses.map((expense, index) => (
+                <Box key={expense._id}>
+                  {index > 0 && <Divider />}
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 1.25 }}>
+                    <Box sx={{ minWidth: 0 }}>
+                      <Typography sx={{ fontWeight: 600 }} noWrap>
+                        {expense.title}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        {expense.userName} · {formatDate(expense.date)}
+                      </Typography>
+                    </Box>
+                    <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
+                      {formatRWF(expense.amount)}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Typography sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
-                  {formatRWF(expense.amount)}
-                </Typography>
-              </Box>
+              ))}
             </Box>
-          ))}
+          )}
         </Paper>
 
+        {/* Recently registered users */}
         <Paper sx={{ p: { xs: 2, sm: 3 } }}>
           <Typography variant="h6" gutterBottom>
             Recently registered users
           </Typography>
-          {insights.recentUsers.length === 0 && (
+
+          {insights.recentUsers.length === 0 ? (
             <Typography sx={{ color: 'text.secondary' }}>No users yet.</Typography>
-          )}
-          {insights.recentUsers.map((person, index) => (
-            <Box key={person._id}>
-              {index > 0 && <Divider />}
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 1.25 }}>
-                <Box sx={{ minWidth: 0 }}>
-                  <Typography sx={{ fontWeight: 600 }} noWrap>
-                    {person.name}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                    {person.email}
-                  </Typography>
+          ) : (
+            <Box>
+              {insights.recentUsers.map((person, index) => (
+                <Box key={person._id}>
+                  {index > 0 && <Divider />}
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 1.25 }}>
+                    <Box sx={{ minWidth: 0 }}>
+                      <Typography sx={{ fontWeight: 600 }} noWrap>
+                        {person.name}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+                        {person.email}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', whiteSpace: 'nowrap' }}>
+                      {formatDate(person.createdAt.slice(0, 10))}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Typography variant="body2" sx={{ color: 'text.secondary', whiteSpace: 'nowrap' }}>
-                  {formatDate(person.createdAt.slice(0, 10))}
-                </Typography>
-              </Box>
+              ))}
             </Box>
-          ))}
+          )}
         </Paper>
       </Box>
     </Box>

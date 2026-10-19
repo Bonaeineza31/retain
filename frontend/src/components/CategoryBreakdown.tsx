@@ -25,7 +25,7 @@ export default function CategoryBreakdown({ items, categoryNames }: Props) {
       ) : (
         <Box sx={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 2 }}>
           {items.map((item) => {
-            const percent = Math.round((item.total / total) * 100)
+            const percent = total > 0 ? Math.round((item.total / total) * 100) : 0
             return (
               <Box key={item.categoryId}>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', columnGap: 2, mb: 0.5 }}>
