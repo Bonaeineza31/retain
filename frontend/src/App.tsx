@@ -1,9 +1,11 @@
+import { useEffect } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import AdminLayout from './components/AdminLayout'
 import AppLayout from './components/AppLayout'
 import CategoriesPage from './pages/CategoriesPage'
 import AdminRoute from './routes/AdminRoute'
 import ProtectedRoute from './routes/ProtectedRoute'
+import { wakeServer } from './services/api'
 import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminExpensesPage from './pages/AdminExpensesPage'
 import AdminUsersPage from './pages/AdminUsersPage'
@@ -17,6 +19,9 @@ import SignUpPage from './pages/SignUpPage'
 
 // All the pages of the app. Some need a signed in user and some are only for admins.
 function App() {
+  // wake the server now, so it is ready when the person signs in or up
+  useEffect(wakeServer, [])
+
   return (
     <BrowserRouter>
       <Routes>

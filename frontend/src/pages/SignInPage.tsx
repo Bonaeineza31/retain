@@ -9,6 +9,7 @@ import { Link as RouterLink, Navigate, useLocation, useNavigate } from 'react-ro
 import AuthLayout from '../components/AuthLayout'
 import PasswordField from '../components/PasswordField'
 import useAuth from '../hooks/useAuth'
+import useIsSlow from '../hooks/useIsSlow'
 import {
   validateSignInForm,
   type FormErrors,
@@ -29,6 +30,8 @@ export default function SignInPage() {
   const [errors, setErrors] = useState<FormErrors<SignInFormValues>>({})
   const [serverError, setServerError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  // true when the server takes long to answer, because it was asleep
+  const slow = useIsSlow(submitting)
 
   if (user) {
     return <Navigate to="/dashboard" replace />
@@ -70,6 +73,9 @@ export default function SignInPage() {
       <form onSubmit={handleSubmit} noValidate>
         <Stack spacing={2}>
           {serverError && <Alert severity="error">{serverError}</Alert>}
+          {slow && (
+            <Alert severity="info">The server was asleep and is waking up. This can take up to a minute.</Alert>
+          )}
           {registeredEmail && !serverError && (
             <Alert severity="success">Account created. Please sign in.</Alert>
           )}

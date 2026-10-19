@@ -87,6 +87,14 @@ export function createAppTheme(mode: ColorMode) {
           root: ({ theme }) => ({
             [theme.breakpoints.down('sm')]: { fontSize: '0.875rem' },
           }),
+          // the browser paints saved (autofilled) fields in its own bright blue. this keeps them in our colors
+          input: {
+            '&:-webkit-autofill': {
+              WebkitBoxShadow: `0 0 0 100px ${c.surface} inset`,
+              WebkitTextFillColor: c.ink,
+              caretColor: c.ink,
+            },
+          },
         },
       },
       MuiInputLabel: {

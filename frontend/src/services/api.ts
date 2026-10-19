@@ -43,10 +43,27 @@ interface RequestOptions {
   query?: Record<string, string | number | null | undefined>
 }
 
+// the address of the backend from the .env file, without a slash at the end
+function getBackendUrl(): string {
+  return (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '')
+}
+
+// the free server goes to sleep when nobody uses it, and takes up to a minute to wake up.
+// this asks it something small, so it is awake by the time the person sends a form
+export function wakeServer() {
+  const backendUrl = getBackendUrl()
+  if (backendUrl) {
+    fetch(backendUrl + '/api/health').catch(() => {})
+  }
+}
+
+// how long we wait for the backend, in milliseconds
+const WAIT_LIMIT_MS = 90000
+
 // sends a request to the backend and gives back the data of the reply.
 // when the backend answers with an error, it throws an ApiError
 export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const backendUrl = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '')
+  const backendUrl = getBackendUrl()
   if (!backendUrl) {
     throw new ApiError('VITE_BACKEND_URL is missing in the .env file', 'NO_BACKEND_URL', 0)
   }
@@ -76,8 +93,12 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       method: options.method ?? 'GET',
       headers,
       body: options.body !== undefined ? JSON.stringify(options.body) : undefined,
+      signal: AbortSignal.timeout(WAIT_LIMIT_MS),
     })
-  } catch {
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'TimeoutError') {
+      throw new ApiError('The server is taking too long to answer. Please try again', 'TIMEOUT', 0)
+    }
     throw new ApiError('Could not reach the server. Check your internet and try again', 'NETWORK_ERROR', 0)
   }
 
